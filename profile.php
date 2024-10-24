@@ -32,7 +32,7 @@
         </div>
         <div class="mb-2">Lorem, ipsum dolor sit amet consectetur adipisicing elit. Voluptatem sit numquam optio nemo perferendis odit quisquam accusantium distinctio, earum corporis. Hic, quibusdam saepe! Soluta atque magnam vero nostrum maxime nisi?</div>
         <div class="mb-6 text-sm">Joined at 2024-10-17</div>
-        <a href="" class="btn px-6 py-2 flex text-center justify-center border shadow rounded-lg">Edit Profile</a>
+        <a href="" class="btn px-6 py-2 font-bold flex text-center justify-center border shadow rounded-lg">Edit Profile</a>
     </section>
 
     <h2 class="heading text-center mb-6">Posts</h2>

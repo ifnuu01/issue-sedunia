@@ -21,6 +21,8 @@
   font-size: 16px;
   scroll-behavior: smooth;
   line-height: 28px;
+  outline: none;
+  border: none;
 }
 
 a {
@@ -103,6 +105,10 @@ a {
 
 .mb-6 {
   margin-bottom: 24px;
+}
+
+.mb-10 {
+  margin-bottom: 40px;
 }
 /* margin end */
 
@@ -203,6 +209,10 @@ a {
 /* display start */
 .flex {
   display: flex;
+}
+
+.block {
+  display: block;
 }
 
 .flex-wrap {
