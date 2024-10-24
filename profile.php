@@ -22,7 +22,7 @@
     echo navbar();
     ?>
     <h2 class="heading text-center mb-6">Profile</h2>
-    <section class="mb-6 p-c border rounded-lg shadow">
+    <section class="mb-6 p-c cream border rounded-lg shadow">
         <div class="flex items-center justify-between mb-2">
             <div>
                 <h3 class="heading text-lg">Raana Fuyu</h3>
