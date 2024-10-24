@@ -31,6 +31,10 @@ body {
   display: none !important;
 }
 
+.post-avatar-desktop {
+  display: none;
+}
+
 @media (min-width: 768px) {
   .navbar {
     top: 16px;
@@ -52,5 +56,13 @@ body {
   .logo,
   .setting {
     display: flex !important;
+  }
+
+  .post-avatar-desktop {
+    display: flex;
+  }
+
+  .post-avatar-mobile {
+    display: none;
   }
 }

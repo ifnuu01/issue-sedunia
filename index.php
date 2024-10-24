@@ -57,10 +57,11 @@
     </article>
 
     <article class="flex gap-6 mb-6">
-        <div class="avatar mt-3 white shadow border rounded-full"></div>
+        <div class="post-avatar-desktop avatar mt-3 white shadow border rounded-full"></div>
         <div class="w-full cream shadow border rounded-lg">
-            <div class="p-c flex items-center justify-between border-b flex-wrap">
+            <div class="p-c flex items-center justify-between border-b flex-wrap gap-3">
                 <div class="flex items-center gap-3">
+                    <div class="post-avatar-mobile avatar white shadow border rounded-full"></div>
                     <h3 class="heading">Raana</h3>
                     <p class="text-sm">2024-10-17</p>
                 </div>
@@ -92,10 +93,11 @@
     </article>
 
     <article class="flex gap-6 mb-6">
-        <div class="avatar mt-3 white shadow border rounded-full"></div>
+        <div class="post-avatar-desktop avatar mt-3 white shadow border rounded-full"></div>
         <div class="w-full cream shadow border rounded-lg">
-            <div class="p-c flex items-center justify-between border-b flex-wrap">
+            <div class="p-c flex items-center justify-between border-b flex-wrap gap-3">
                 <div class="flex items-center gap-3">
+                    <div class="post-avatar-mobile avatar white shadow border rounded-full"></div>
                     <h3 class="heading">Adi</h3>
                     <p class="text-sm">2024-10-17</p>
                 </div>
