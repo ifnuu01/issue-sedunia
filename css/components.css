@@ -23,6 +23,10 @@
   line-height: 28px;
 }
 
+a {
+  color: var(--foreground-color);
+}
+
 /* colors start */
 .red {
   background: var(--red);
@@ -82,11 +86,19 @@
 .text-sm {
   font-size: 12px;
 }
+
+.text-lg {
+  font-size: 24px;
+}
 /* typography end */
 
 /* margin start */
 .mt-3 {
   margin-top: 12px;
+}
+
+.mb-2 {
+  margin-bottom: 8px;
 }
 
 .mb-6 {
@@ -112,6 +124,11 @@
 .py-1 {
   padding-top: 4px;
   padding-bottom: 4px;
+}
+
+.py-2 {
+  padding-top: 8px;
+  padding-bottom: 8px;
 }
 
 .py-4 {
@@ -156,6 +173,15 @@
   min-height: 40px;
   max-width: 40px;
   max-height: 40px;
+  object-fit: cover;
+  overflow: hidden;
+}
+
+.avatar-lg {
+  min-width: 80px;
+  min-height: 80px;
+  max-width: 80px;
+  max-height: 80px;
   object-fit: cover;
   overflow: hidden;
 }
@@ -237,3 +263,10 @@
   height: 256px;
 }
 /* dimension end */
+
+/* hover start */
+.btn:hover {
+  background-color: var(--foreground-color);
+  color: var(--white);
+}
+/* hover end */
