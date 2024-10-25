@@ -8,6 +8,7 @@
   --blue: #87ceeb;
   --pink: #ffc0cb;
   --white: #fff;
+  --purple: #c4a1ff;
 }
 
 * {
@@ -27,6 +28,15 @@
 
 a {
   color: var(--foreground-color);
+}
+
+textarea {
+  resize: none;
+}
+
+button {
+  cursor: pointer;
+  background-color: transparent;
 }
 
 /* colors start */
@@ -60,6 +70,10 @@ a {
 
 .cream {
   background: var(--cream);
+}
+
+.purple {
+  background: var(--purple);
 }
 /* colors end */
 
@@ -120,6 +134,11 @@ a {
 .px-1 {
   padding-left: 4px;
   padding-right: 4px;
+}
+
+.px-4 {
+  padding-left: 16px;
+  padding-right: 16px;
 }
 
 .px-6 {
@@ -275,8 +294,18 @@ a {
 /* dimension end */
 
 /* hover start */
-.btn:hover {
+.btn.auth:hover {
   background-color: var(--foreground-color);
   color: var(--white);
 }
+
+.btn:hover {
+  box-shadow: 0 2px 0 #000;
+}
 /*hover end*/
+
+/* focus start */
+.shadow:focus {
+  box-shadow: 0 2px 0 #000;
+}
+/* focus end */

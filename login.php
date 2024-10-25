@@ -49,7 +49,7 @@
             <label for="password" class="heading block mb-2">Password</label>
             <input type="password" name="password" id="password" placeholder="Min 4 characters" class="w-full green p-c rounded-lg border shadow">
         </div>
-        <a href="" class="btn px-6 font-bold py-2 flex text-center justify-center border shadow rounded-lg">Register</a>
+        <button type="submit" class="btn auth w-full px-6 font-bold py-2 flex text-center justify-center border shadow rounded-lg">Login</button>
     </form>
     <div>Don't have account? <a href="register.php" class="blue px-1 py-1">Register</a></div>
 </body>

@@ -7,6 +7,7 @@ body {
   font-size: 16px;
   padding: 0 24px;
   padding-top: 24px;
+  padding-bottom: 120px;
 }
 
 .navbar {
@@ -36,6 +37,10 @@ body {
 }
 
 @media (min-width: 768px) {
+  body {
+    padding-bottom: 24px;
+  }
+
   .navbar {
     top: 16px;
     left: 16px;
