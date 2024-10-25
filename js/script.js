@@ -1,13 +1,26 @@
 const uploadBtn = document.querySelector(".btn-upload-modal");
 const dialog = document.querySelector(".dialog");
 const cancelBtn = document.querySelector(".cancel-post");
+const navAddPost = document.querySelector(".nav-add-post");
+const homeIcon = document.querySelector(".home-icon");
+const searchIcon = document.querySelector(".search-icon");
+const profileIcon = document.querySelector(".profile-icon");
+const settingIcon = document.querySelector(".setting-icon");
 
-uploadBtn.addEventListener("click", () => {
+const pathname = window.location.pathname;
+
+if (pathname == "/issue-sedunia/" || pathname == "/issue-sedunia/index.php") {
+  homeIcon.classList.add("yellow", "shadow", "border");
+} else if (pathname.startsWith("/issue-sedunia/search.php")) {
+  searchIcon.classList.add("blue", "shadow", "border");
+} else if (pathname.startsWith("/issue-sedunia/profile.php")) {
+  profileIcon.classList.add("purple", "shadow", "border");
+} else if (pathname.startsWith("/issue-sedunia/editProfile.php")) {
+  settingIcon.classList.add("green", "shadow", "border");
+}
+
+navAddPost.addEventListener("click", () => {
   dialog.showModal();
-});
-
-cancelBtn.addEventListener("click", () => {
-  dialog.close();
 });
 
 dialog.addEventListener("click", (e) => {
@@ -20,4 +33,12 @@ dialog.addEventListener("click", (e) => {
   ) {
     dialog.close();
   }
+});
+
+cancelBtn.addEventListener("click", () => {
+  dialog.close();
+});
+
+uploadBtn.addEventListener("click", () => {
+  dialog.showModal();
 });
