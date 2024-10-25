@@ -34,7 +34,7 @@
         <div class="mb-6 text-sm">Joined at 2024-10-17</div>
     </section>
 
-    <form action="" class="mb-6 p-c w-full cream border shadow rounded-lg" enctype="multipart/form-data">
+    <form action="" method="POST" class="mb-6 p-c w-full cream border shadow rounded-lg" enctype="multipart/form-data">
         <div class="mb-6">
             <label for="username" class="heading block mb-2">Username</label>
             <input type="text" name="username" id="username" placeholder="Ex: fuyu" class="w-full red p-c rounded-lg border shadow">

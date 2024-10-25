@@ -40,7 +40,7 @@
         <img src="assets/icons/logo.svg" alt="logo">
         <h1 class="text-center font-bold text-lg">Login</h1>
     </div>
-    <form action="" class="mb-6 p-c w-full cream border shadow rounded-lg">
+    <form action="" method="POST" class="mb-6 p-c w-full cream border shadow rounded-lg">
         <div class="mb-6">
             <label for="username" class="heading block mb-2">Username</label>
             <input type="text" name="username" id="username" placeholder="Ex: fuyu" class="w-full red p-c rounded-lg border shadow">
