@@ -86,6 +86,10 @@ button {
   text-align: justify;
 }
 
+.text-end {
+  text-align: end;
+}
+
 .heading {
   font-size: 18px;
   font-weight: 700;
@@ -230,6 +234,14 @@ button {
   display: flex;
 }
 
+.grid {
+  display: grid;
+}
+
+.grid-cols-3 {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
 .block {
   display: block;
 }
@@ -272,12 +284,20 @@ button {
   width: 100%;
 }
 
+.w-5 {
+  width: 20px;
+}
+
 .w-10 {
   width: 40px;
 }
 
 .w-12 {
   width: 48px;
+}
+
+.h-5 {
+  height: 20px;
 }
 
 .h-10 {

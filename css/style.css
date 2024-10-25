@@ -36,6 +36,20 @@ body {
   display: none;
 }
 
+.dialog {
+  z-index: 10;
+  margin-top: 10px;
+  margin: auto;
+  width: 90%;
+  max-width: 700px;
+  order: none;
+}
+
+.dialog::backdrop {
+  background-color: #00000030;
+  backdrop-filter: blur(4px);
+}
+
 @media (min-width: 768px) {
   body {
     padding-bottom: 24px;
