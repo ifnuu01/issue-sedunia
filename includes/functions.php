@@ -136,7 +136,6 @@ function updateProfile($conn, $id, $username, $fullname, $bio, $newPassword, $ol
 {
     ifPhoto($photo);
     if ($photo) {
-
         $statusPhoto = checkPhoto($photo, false);
         if ($statusPhoto != false) {
             $status = checkPassword($conn, $id, $oldPassword);
