@@ -84,13 +84,22 @@ function checkPhoto($data, $isEdit)
     $newFileName .= '.';
     $newFileName .= $fileExt;
 
-    if ($isEdit) {
-        move_uploaded_file($tmpName, '../../uploads/' . $newFileName);
-    } else {
-        move_uploaded_file($tmpName, '../uploads/' . $newFileName);
+    if ($isEdit) { // masukan ke folder img/profels
+        move_uploaded_file($tmpName, '../img/profiles' . $newFileName);
+    } else { // masukan ke folder img/posts
+        move_uploaded_file($tmpName, '../img/posts' . $newFileName);
     }
 
     return $newFileName;
+}
+
+function ifPhoto($photo)
+{ //memeriksa apakah foto di input atau tidak
+    if ($photo) { //jika foto di input
+        return true;
+    } else { //jika foto tidak di input
+        return false;
+    }
 }
 
 function deletePhoto($conn, $id)
@@ -125,29 +134,38 @@ function checkPassword($conn, $id, $password)
 
 function updateProfile($conn, $id, $username, $fullname, $bio, $newPassword, $oldPassword, $photo)
 {
-    $status = checkPassword($conn, $id, $oldPassword);
-    $sql = "UPDATE users SET username = '$username', fullname = '$fullname', bio = '$bio', photo = '$photo' WHERE id = '$id'";
-    if ($status) {
-        $passwordHash = password_hash($newPassword, PASSWORD_DEFAULT);
-        $sql = "UPDATE users SET username = '$username', fullname = '$fullname', bio = '$bio', password = '$passwordHash', photo = '$photo' WHERE id = '$id'";
-        return $conn->query($sql);
+    ifPhoto($photo);
+    if ($photo) {
+
+        $statusPhoto = checkPhoto($photo, false);
+        if ($statusPhoto != false) {
+            $status = checkPassword($conn, $id, $oldPassword);
+            $photo = $statusPhoto;
+            if ($status) {
+                $passwordHash = password_hash($newPassword, PASSWORD_DEFAULT);
+                $sql = "UPDATE users SET username = '$username', fullname = '$fullname', bio = '$bio', password = '$passwordHash', photo = '$photo' WHERE id = '$id'";
+                return $conn->query($sql);
+            } else {
+                echo "<script>alert('Wrong Current Password!')</script>";
+                return null;
+            }
+        } else {
+            return null;
+        }
     } else {
-        echo "<script>alert('Wrong Current Password!')</script>";
-        return null;
+        $status = checkPassword($conn, $id, $oldPassword);
+        if ($status) {
+            $passwordHash = password_hash($newPassword, PASSWORD_DEFAULT);
+            $sql = "UPDATE users SET username = '$username', fullname = '$fullname', bio = '$bio', password = '$passwordHash' WHERE id = '$id'";
+            return $conn->query($sql);
+        } else {
+            echo "<script>alert('Wrong Current Password!')</script>";
+            return null;
+        }
     }
 
+
 }
-
-function ifPhoto($photo)
-{ //memeriksa apakah foto di input atau tidak
-    if ($photo) { //jika foto di input
-        return true;
-    } else { //jika foto tidak di input
-        return false;
-    }
-}
-
-
 
 function editPost($conn, $id, $category, $title, $content, $photo)// fungsi editPost
 {
@@ -155,8 +173,14 @@ function editPost($conn, $id, $category, $title, $content, $photo)// fungsi edit
         $category = 1; //front end
         ifPhoto($photo);
         if ($photo) { //jika foto di input
-            $sql = "UPDATE posts SET category_id = '$category', title = '$title', 'content' = 'content', photo ='$photo' WHERE id = '$id'";
-            return $conn->query($sql);
+            $statusPhoto = checkPhoto($photo, false); // cek foto
+            if ($statusPhoto != false) {
+                $photo = $statusPhoto;
+                $sql = "UPDATE posts SET category_id = '$category', title = '$title', 'content' = 'content', photo ='$photo' WHERE id = '$id'";
+                return $conn->query($sql);
+            } else {
+                return null;
+            }
         } else { //jika foto tidak di input
             $sql = "UPDATE posts SET category_id = '$category', title = '$title', 'content' = 'content' WHERE id = '$id'";
             return $conn->query($sql);
@@ -165,8 +189,13 @@ function editPost($conn, $id, $category, $title, $content, $photo)// fungsi edit
         $category = 2; //back end
         ifPhoto($photo);
         if ($photo) { //jika foto di input
-            $sql = "UPDATE posts SET category_id = '$category', title = '$title', 'content' = 'content', photo ='$photo' WHERE id = '$id'";
-            return $conn->query($sql);
+            $statusPhoto = checkPhoto($photo, false); // cek foto
+            if ($statusPhoto != false) {
+                $sql = "UPDATE posts SET category_id = '$category', title = '$title', 'content' = 'content', photo ='$photo' WHERE id = '$id'";
+                return $conn->query($sql);
+            } else {
+                return null;
+            }
         } else { //jika foto tidak di input
             $sql = "UPDATE posts SET category_id = '$category', title = '$title', 'content' = 'content' WHERE id = '$id'";
             return $conn->query($sql);
@@ -175,8 +204,13 @@ function editPost($conn, $id, $category, $title, $content, $photo)// fungsi edit
         $category = 3; //fullstack
         ifPhoto($photo);
         if ($photo) { //jika foto di input
-            $sql = "UPDATE posts SET category_id = '$category', title = '$title', 'content' = 'content', photo ='$photo' WHERE id = '$id'";
-            return $conn->query($sql);
+            $statusPhoto = checkPhoto($photo, false); // cek foto
+            if ($statusPhoto != false) {
+                $sql = "UPDATE posts SET category_id = '$category', title = '$title', 'content' = 'content', photo ='$photo' WHERE id = '$id'";
+                return $conn->query($sql);
+            } else {
+                return null;
+            }
         } else { //jika foto tidak di input
             $sql = "UPDATE posts SET category_id = '$category', title = '$title', 'content' = 'content' WHERE id = '$id'";
             return $conn->query($sql);
