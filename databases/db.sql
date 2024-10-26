@@ -1,34 +1,45 @@
 CREATE DATABASE commit;
 
-show databases;
-
 use commit;
 
-create table users (
-	id int auto_increment primary key,
-    username varchar(50) not null,
-    email varchar(100) not null,
-    password varchar(255) not null,
-    created_at timestamp default current_timestamp
+CREATE TABLE users (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    username VARCHAR(50) NOT NULL,
+    fullname VARCHAR(255),
+    bio VARCHAR(255) DEFAULT 'Hai selamat datang',
+    email VARCHAR(100) NOT NULL,
+    password VARCHAR(255) NOT NULL,
+    photo VARCHAR(255) DEFAULT 'img/profiles/profile.jpg',
+    role enum('user','admin') NOT NULL DEFAULT 'user',
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
-desc users;
-
-select * from users;
-
-create table posts (
-	id int auto_increment primary key,
-    user_id int,
-    content text,
-    created_at timestamp default current_timestamp,
-    photo varchar(255),
-    foreign key (user_id) references users(id)
+CREATE TABLE categories (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(255) NOT NULL
 );
 
-desc posts;
+CREATE TABLE posts (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    user_id INT,
+    category_id INT,
+    title VARCHAR(255) NOT NULL,
+    content TEXT,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    photo VARCHAR(255),
+    watching_counter INT DEFAULT 0,
+    share_counter INT DEFAULT 0,
+    isSolve bool default false,
+    FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE ON update cascade,
+    FOREIGN KEY (category_id) REFERENCES categories(id) ON DELETE CASCADE ON update cascade
+);
 
-select * from posts;
-
-SELECT posts.*, users.username FROM posts JOIN users ON posts.user_id = users.id WHERE posts.id = 2 ORDER BY created_at DESC;
-
-delete from posts where id = 5;
+CREATE TABLE comments (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    user_id INT,
+    post_id INT,
+    content TEXT,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE ON update cascade,
+    FOREIGN KEY (post_id) REFERENCES posts(id) ON DELETE CASCADE ON update cascade
+);
