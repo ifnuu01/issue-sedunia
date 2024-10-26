@@ -104,4 +104,83 @@ function deletePhoto($conn, $id)
     }
     return $conn->query($sql);
 }
+
+function deleteUser($conn, $id)
+{
+    $sql = "DELETE FROM users WHERE id = '$id'";
+    return $conn->query($sql);
+}
+
+function checkPassword($conn, $id, $password)
+{
+    $sql = "SELECT * FROM users WHERE id = '$id'";
+    $result = $conn->query($sql);
+    $row = $result->fetch_assoc();
+    if (password_verify($password, $row['password'])) {
+        return true;
+    } else {
+        return false;
+    }
+}
+
+function updateProfile($conn, $id, $username, $fullname, $bio, $newPassword, $oldPassword, $photo)
+{
+    $status = checkPassword($conn, $id, $oldPassword);
+    $sql = "UPDATE users SET username = '$username', fullname = '$fullname', bio = '$bio', photo = '$photo' WHERE id = '$id'";
+    if ($status) {
+        $passwordHash = password_hash($newPassword, PASSWORD_DEFAULT);
+        $sql = "UPDATE users SET username = '$username', fullname = '$fullname', bio = '$bio', password = '$passwordHash', photo = '$photo' WHERE id = '$id'";
+        return $conn->query($sql);
+    } else {
+        echo "<script>alert('Wrong Current Password!')</script>";
+        return null;
+    }
+
+}
+
+function ifPhoto($photo)
+{ //memeriksa apakah foto di input atau tidak
+    if ($photo) { //jika foto di input
+        return true;
+    } else { //jika foto tidak di input
+        return false;
+    }
+}
+
+
+
+function editPost($conn, $id, $category, $title, $content, $photo)// fungsi editPost
+{
+    if ($category == 1) {
+        $category = 1; //front end
+        ifPhoto($photo);
+        if ($photo) { //jika foto di input
+            $sql = "UPDATE posts SET category_id = '$category', title = '$title', 'content' = 'content', photo ='$photo' WHERE id = '$id'";
+            return $conn->query($sql);
+        } else { //jika foto tidak di input
+            $sql = "UPDATE posts SET category_id = '$category', title = '$title', 'content' = 'content' WHERE id = '$id'";
+            return $conn->query($sql);
+        }
+    } else if ($category == 2) {
+        $category = 2; //back end
+        ifPhoto($photo);
+        if ($photo) { //jika foto di input
+            $sql = "UPDATE posts SET category_id = '$category', title = '$title', 'content' = 'content', photo ='$photo' WHERE id = '$id'";
+            return $conn->query($sql);
+        } else { //jika foto tidak di input
+            $sql = "UPDATE posts SET category_id = '$category', title = '$title', 'content' = 'content' WHERE id = '$id'";
+            return $conn->query($sql);
+        }
+    } else {
+        $category = 3; //fullstack
+        ifPhoto($photo);
+        if ($photo) { //jika foto di input
+            $sql = "UPDATE posts SET category_id = '$category', title = '$title', 'content' = 'content', photo ='$photo' WHERE id = '$id'";
+            return $conn->query($sql);
+        } else { //jika foto tidak di input
+            $sql = "UPDATE posts SET category_id = '$category', title = '$title', 'content' = 'content' WHERE id = '$id'";
+            return $conn->query($sql);
+        }
+    }
+}
 ?>
