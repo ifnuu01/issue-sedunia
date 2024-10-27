@@ -1,19 +1,28 @@
 <?php
-// include '../includes/connection.php';
-// include '../includes/functions.php';
+include 'includes/connection.php';
+include 'includes/functions.php';
 
-// session_start();
+session_start();
 
-// if($_SERVER['REQUEST_METHOD'] == 'POST') {
-//     $email = htmlspecialchars($_POST['email']);
-//     $password = htmlspecialchars($_POST['password']);
-//     $user = loginUser($conn, $email, $password);
-//     if($user) {
-//         $_SESSION['user_id'] = $user['id'];
-//         $_SESSION['username'] = $user['username'];
-//         header('Location: index.php');
-//     }
-// }
+if (isset($_SESSION['user'])) {
+    header('Location: index.php');
+}
+
+if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+    $email = htmlspecialchars($_POST['email']);
+    $password = htmlspecialchars($_POST['password']);
+    $result = login($conn, $email, $password);
+    if ($result['status']) {
+        $_SESSION['user'] = $result['data'];
+        if ($result['data']['role'] == 'admin') {
+            header('Location: admin.php');
+        } else {
+            header('Location: index.php');
+        }
+    } else {
+        echo "<script>alert('" . $result['message'] . "')</script>";
+    }
+}
 ?>
 
 <!DOCTYPE html>
@@ -42,12 +51,12 @@
     </div>
     <form action="" method="POST" class="mb-6 p-c w-full cream border shadow rounded-lg">
         <div class="mb-6">
-            <label for="username" class="heading block mb-2">Username</label>
-            <input type="text" name="username" id="username" placeholder="Ex: fuyu" class="w-full red p-c rounded-lg border shadow">
+            <label for="email" class="heading block mb-2">Email</label>
+            <input type="email" name="email" id="email" placeholder="Ex: fuyu@gmail.com" class="w-full red p-c rounded-lg border shadow">
         </div>
         <div class="mb-10">
             <label for="password" class="heading block mb-2">Password</label>
-            <input type="password" name="password" id="password" placeholder="Min 4 characters" class="w-full green p-c rounded-lg border shadow">
+            <input type="password" name="password" id="password" placeholder="Min 8 characters" class="w-full green p-c rounded-lg border shadow">
         </div>
         <button type="submit" class="btn auth w-full px-6 font-bold py-2 flex text-center justify-center border shadow rounded-lg">Login</button>
     </form>

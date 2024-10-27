@@ -9,6 +9,11 @@ const settingIcon = document.querySelector(".setting-icon");
 const musicContainer = document.querySelector(".music-container");
 const musicToggler = document.querySelector(".music-toggler");
 
+function shareLink(id) {
+  const link = `localhost/issue-sedunia/post.php?id=${id}`;
+  navigator.clipboard.writeText(link).then(() => alert("Link copied!"));
+}
+
 const audioSources = [
   { src: "assets/musics/rain.mp3", label: "Rain" },
   { src: "assets/musics/campire.mp3", label: "Campire" },
@@ -16,6 +21,7 @@ const audioSources = [
   { src: "assets/musics/delta.mp3", label: "Delta" },
   { src: "assets/musics/theta.mp3", label: "Theta" },
   { src: "assets/musics/milk-tea.m4a", label: "Milk Tea" },
+  { src: "assets/musics/letsgo.mp3", label: "Let's Go!!!!!" },
 ];
 
 musicToggler.addEventListener("click", () => {
@@ -54,6 +60,7 @@ musicBtns.forEach((button, index) => {
     }
   });
 
+  audio.loop = true;
   volumeSlider.addEventListener("input", (event) => {
     audio.volume = event.target.value / 100;
   });
@@ -61,7 +68,11 @@ musicBtns.forEach((button, index) => {
 
 const pathname = window.location.pathname;
 
-if (pathname == "/issue-sedunia/" || pathname == "/issue-sedunia/index.php") {
+if (
+  pathname == "/issue-sedunia/" ||
+  pathname == "/issue-sedunia/index.php" ||
+  pathname.startsWith("/issue-sedunia/post.php")
+) {
   homeIcon.classList.add("yellow", "shadow", "border");
 } else if (pathname.startsWith("/issue-sedunia/search.php")) {
   searchIcon.classList.add("blue", "shadow", "border");

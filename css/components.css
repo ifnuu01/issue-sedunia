@@ -9,6 +9,7 @@
   --pink: #ffc0cb;
   --white: #fff;
   --purple: #c4a1ff;
+  --orange: #ff7f50;
 }
 
 * {
@@ -75,6 +76,22 @@ button {
 .purple {
   background: var(--purple);
 }
+
+.orange {
+  background: var(--orange);
+}
+
+.front-end {
+  background: var(--blue);
+}
+
+.back-end {
+  background: var(--purple);
+}
+
+.full-stack {
+  background: var(--orange);
+}
 /* colors end */
 
 /* typography start */
@@ -109,6 +126,10 @@ button {
 
 .text-lg {
   font-size: 24px;
+}
+
+.capitalize {
+  text-transform: capitalize;
 }
 /* typography end */
 
@@ -333,3 +354,9 @@ button {
   box-shadow: 0 2px 0 #000;
 }
 /* focus end */
+
+/* cursor start */
+.cursor-pointer {
+  cursor: pointer;
+}
+/* cursor end */

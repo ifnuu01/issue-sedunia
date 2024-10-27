@@ -10,17 +10,15 @@ function registrasi($conn, $username, $fullname, $email, $password)
     $stmt->execute();
     $stmt->store_result();
 
-    if($stmt->num_rows > 0)
-    {
+    if ($stmt->num_rows > 0) {
         return [
             "status" => false,
-            "message" => "Username already exists!"
+            "message" => "Username or email already exists!"
         ];
     }
     $stmt->close();
 
-    if(strlen($password) < 8)
-    {
+    if (strlen($password) < 8) {
         return [
             "status" => false,
             "message" => "Password must be at least 8 characters!"
@@ -31,20 +29,17 @@ function registrasi($conn, $username, $fullname, $email, $password)
     $username = htmlspecialchars($username);
     $fullname = htmlspecialchars($fullname);
     $email = htmlspecialchars($email);
-    
+
     $sql = "INSERT INTO users (username, fullname, email, password) VALUES (?, ?, ?, ?)";
     $stmt = $conn->prepare($sql);
     $stmt->bind_param("ssss", $username, $fullname, $email, $password);
 
-    if ($stmt->execute()) 
-    {
+    if ($stmt->execute()) {
         return [
             "status" => true,
             "message" => "Registrasi berhasil!"
         ];
-    } 
-    else 
-    {
+    } else {
         return [
             "status" => false,
             "message" => "Registrasi gagal!"
@@ -75,7 +70,7 @@ function login($conn, $usernameOrEmail, $password)
     if ($result->num_rows === 0) {
         return [
             "status" => false,
-            "message" => "Username atau email tidak terdaftar!"
+            "message" => "Username or email not registered!"
         ];
     }
 
@@ -84,7 +79,7 @@ function login($conn, $usernameOrEmail, $password)
     if (!password_verify($password, $user['password'])) {
         return [
             "status" => false,
-            "message" => "Password salah!"
+            "message" => "Wrong Password!"
         ];
     }
 
@@ -126,7 +121,7 @@ function getAllPosts($conn)
 {
     $sql = "
         SELECT 
-            p.id,
+            p.id AS post_id,
             p.title,
             p.content,
             p.created_at,
@@ -153,12 +148,12 @@ function getAllPosts($conn)
     $result = $conn->query($sql);
 
     $posts = [];
-    
+
     if ($result->num_rows > 0) {
         while ($row = $result->fetch_assoc()) {
             $posts[] = [
                 "user_id" => $row['id'],
-                "id" => $row['id'],
+                "id" => $row['post_id'],
                 "title" => $row['title'],
                 "content" => $row['content'],
                 "created_at" => $row['created_at'],
@@ -243,7 +238,7 @@ function getSinglePost($conn, $postId)
     }
 
     $post = $result->fetch_assoc();
-    
+
     $sqlComments = "
         SELECT 
             c.id,
@@ -332,7 +327,7 @@ function getSinglePost($conn, $postId)
 function getAllUsers($conn)
 {
     $sql = "SELECT id, username, fullname, email, created_at, photo FROM users WHERE role = 'user'";
-    
+
     $stmt = $conn->prepare($sql);
     $stmt->execute();
     $result = $stmt->get_result();
@@ -557,7 +552,7 @@ function addPost($conn, $userId, $categoryId, $title, $content, $imgFile = null)
             ];
         }
 
-        
+
         $uniqueName = uniqid("post_", true) . "." . $fileExtension;
         $uploadDir = 'img/posts/';
         if (!is_dir($uploadDir)) {

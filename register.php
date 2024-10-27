@@ -1,19 +1,27 @@
 <?php
-// include '../includes/connection.php';
-// include '../includes/functions.php';
+include 'includes/connection.php';
+include 'includes/functions.php';
 
-// if($_SERVER['REQUEST_METHOD'] == 'POST') {
-//     $username = htmlspecialchars($_POST['username']);
-//     $email = htmlspecialchars($_POST['email']);
-//     $password = htmlspecialchars($_POST['password']);
+session_start();
 
-//     if(registerUser($conn, $username, $email, $password)) {
-//         echo "<script>alert('Registration successful!')</script>";
-//         header('Location: login.php');
-//     } else {
-//         echo "<script>alert('Registration failed!')</script>";
-//     }
-// }
+if (isset($_SESSION['user'])) {
+    header('Location: index.php');
+}
+
+if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+    $username = htmlspecialchars($_POST['username']);
+    $fullname = htmlspecialchars($_POST['fullname']);
+    $email = htmlspecialchars($_POST['email']);
+    $password = htmlspecialchars($_POST['password']);
+
+    $result = registrasi($conn, $username, $fullname, $email, $password);
+    if ($result['status']) {
+        echo "<script>alert('" . $result['message'] . "')</script>";
+        header('Location: login.php');
+    } else {
+        echo "<script>alert('" . $result['message'] . "')</script>";
+    }
+}
 ?>
 
 <!DOCTYPE html>
@@ -44,6 +52,10 @@
         <div class="mb-6">
             <label for="username" class="heading block mb-2">Username</label>
             <input type="text" name="username" id="username" placeholder="Ex: fuyu" class="w-full red p-c rounded-lg border shadow">
+        </div>
+        <div class="mb-6">
+            <label for="fullname" class="heading block mb-2">Fullname</label>
+            <input type="text" name="fullname" id="fullname" placeholder="Ex: Raana Fuyu" class="w-full orange p-c rounded-lg border shadow">
         </div>
         <div class="mb-6">
             <label for="email" class="heading block mb-2">Email</label>
