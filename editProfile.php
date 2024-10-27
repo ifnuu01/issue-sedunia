@@ -22,6 +22,11 @@
     echo navbar();
     ?>
     <h2 class="heading text-center mb-6">Edit Profile</h2>
+
+    <div class="music-container hidden p-c cream border shadow rounded-lg">
+        <h2 class="font-bold mb-6">Soundboard</h2>
+    </div>
+
     <section class="mb-6 p-c cream border rounded-lg shadow">
         <div class="flex items-center justify-between mb-2">
             <div>

@@ -23,6 +23,10 @@
     ?>
     <h2 class="heading text-center mb-6">Profile</h2>
 
+    <div class="music-container hidden p-c cream border shadow rounded-lg">
+        <h2 class="font-bold mb-6">Soundboard</h2>
+    </div>
+
     <dialog class="dialog cream shadow border rounded-lg">
         <div class="p-c border-b grid grid-cols-3">
             <div class="flex gap-3 items-center">
@@ -62,7 +66,7 @@
         </div>
     </dialog>
 
-    <section class="mb-6 p-c cream border rounded-lg shadow">
+    <section class="profile mb-6 p-c cream border rounded-lg shadow">
         <div class="flex items-center justify-between mb-2">
             <div>
                 <h3 class="heading text-lg">Raana Fuyu</h3>

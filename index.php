@@ -51,6 +51,10 @@
     ?>
     <h2 class="heading text-center mb-6">Posts</h2>
 
+    <div class="music-container hidden p-c cream border shadow rounded-lg">
+        <h2 class="font-bold mb-6">Soundboard</h2>
+    </div>
+
     <article class="btn-upload-modal flex gap-6 items-center mb-6">
         <div class="avatar white shadow border rounded-full"></div>
         <div class="w-full p-c cream shadow border rounded-full">Hi Raana! What's new?</div>

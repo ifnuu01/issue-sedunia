@@ -17,7 +17,7 @@ function navbar()
         <button type="button" class="nav-add-post w-12 h-12 flex items-center justify-center rounded-full">
             <img src="assets/icons/add.svg" alt="add">
         </button>
-        <button type="button" class="w-12 h-12 flex items-center justify-center rounded-full">
+        <button type="button" class="music-toggler w-12 h-12 flex items-center justify-center rounded-full">
             <img src="assets/icons/music.svg" alt="music">
         </button>
         <a href="/issue-sedunia/profile.php" class="profile-icon w-12 h-12 flex items-center justify-center rounded-full">
