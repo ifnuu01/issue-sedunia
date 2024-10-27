@@ -1,33 +1,44 @@
-const togglerMode = document.querySelector(".toggler-mode");
-const postImage = document.querySelector("#photo");
-const deletePhotoBtn = document.querySelector("#deletePhotoBtn");
-const inputPhoto = document.querySelector("#deletePhoto");
-console.log(deletePhotoBtn);
-console.log(inputPhoto);
+const uploadBtn = document.querySelector(".btn-upload-modal");
+const dialog = document.querySelector(".dialog");
+const cancelBtn = document.querySelector(".cancel-post");
+const navAddPost = document.querySelector(".nav-add-post");
+const homeIcon = document.querySelector(".home-icon");
+const searchIcon = document.querySelector(".search-icon");
+const profileIcon = document.querySelector(".profile-icon");
+const settingIcon = document.querySelector(".setting-icon");
 
-let isDark = false;
+const pathname = window.location.pathname;
 
-togglerMode.addEventListener("click", () => {
-  isDark = !isDark;
-  const root = document.body;
+if (pathname == "/issue-sedunia/" || pathname == "/issue-sedunia/index.php") {
+  homeIcon.classList.add("yellow", "shadow", "border");
+} else if (pathname.startsWith("/issue-sedunia/search.php")) {
+  searchIcon.classList.add("blue", "shadow", "border");
+} else if (pathname.startsWith("/issue-sedunia/profile.php")) {
+  profileIcon.classList.add("purple", "shadow", "border");
+} else if (pathname.startsWith("/issue-sedunia/editProfile.php")) {
+  settingIcon.classList.add("green", "shadow", "border");
+}
 
-  isDark ? (togglerMode.innerText = "🌞") : (togglerMode.innerText = "🌚");
-
-  root.classList.toggle("dark-mode");
+navAddPost.addEventListener("click", () => {
+  dialog.showModal();
 });
 
-deletePhotoBtn.addEventListener("click", function () {
-  console.log(deletePhotoBtn);
-  console.log(inputPhoto);
-  const confirmDelete = confirm("Are you sure you want to delete this photo?");
-  if (confirmDelete) {
-    deletePhotoInput.value = "1";
-
-    const postImage = document.querySelector(".post-image img");
-    if (postImage) {
-      postImage.style.display = "none";
-    }
-
-    deletePhotoBtn.disabled = true;
+dialog.addEventListener("click", (e) => {
+  const dialogDimensions = dialog.getBoundingClientRect();
+  if (
+    e.clientX < dialogDimensions.left ||
+    e.clientX > dialogDimensions.right ||
+    e.clientY < dialogDimensions.top ||
+    e.clientY > dialogDimensions.bottom
+  ) {
+    dialog.close();
   }
+});
+
+cancelBtn.addEventListener("click", () => {
+  dialog.close();
+});
+
+uploadBtn.addEventListener("click", () => {
+  dialog.showModal();
 });
