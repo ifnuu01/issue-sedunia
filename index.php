@@ -60,7 +60,7 @@ $allPosts = getAllPosts($conn);
         <div class="avatar white shadow border rounded-full">
             <img src="https://ui-avatars.com/api/?name=<?= $user['username'] ?>" alt="Avatar">
         </div>
-        <div class="w-full p-c cream shadow border rounded-full">Hi Raana! What's new?</div>
+        <div class="w-full p-c cream shadow border rounded-full">Hi <?= $user['username'] ?>! What's new?</div>
     </article>
 
     <dialog class="dialog cream shadow border rounded-lg">
