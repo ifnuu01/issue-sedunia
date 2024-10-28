@@ -100,14 +100,16 @@ $post = getSinglePost($conn, $_GET['id']);
             </div>
         </article>
         <article class="flex gap-6 mb-6">
-            <div class="post-avatar-desktop avatar mt-3 white shadow border rounded-full"></div>
-            <div class="comment-line p-c w-full cream shadow border rounded-lg">
-                <form action="" method="POST">
-                    <label for="content" class="heading block mb-2">Add Comment</label>
-                    <textarea id="content" name="content" rows="2" cols="30" class="px-4 py-4 blue w-full rounded shadow border" required placeholder="Add comment..."></textarea>
-                    <button type="submit" name="comment" class="border shadow rounded purple px-4 py-1">Submit</button>
-                </form>
-            </div>
+            <?php if (!$post['post']['isSolve']): ?>
+                <div class="post-avatar-desktop avatar mt-3 white shadow border rounded-full"></div>
+                <div class="comment-line p-c w-full cream shadow border rounded-lg">
+                    <form action="" method="POST">
+                        <label for="content" class="heading block mb-2">Add Comment</label>
+                        <textarea id="content" name="content" rows="2" cols="30" class="px-4 py-4 blue w-full rounded shadow border" required placeholder="Add comment..."></textarea>
+                        <button type="submit" name="comment" class="border shadow rounded purple px-4 py-1">Submit</button>
+                    </form>
+                </div>
+            <?php endif; ?>
         </article>
         <?php foreach ($post['comments'] as $comment): ?>
             <article class="flex gap-6 mb-6">
@@ -125,7 +127,7 @@ $post = getSinglePost($conn, $_GET['id']);
             </article>
         <?php endforeach; ?>
     <?php else: ?>
-        <div class="p-c rounded-lg shadow border capitalize text-center">tidak ada post</div>
+        <div class="p-c rounded-lg shadow border capitalize text-center">No post!</div>
     <?php endif; ?>
 
     <script src="js/script.js"></script>
