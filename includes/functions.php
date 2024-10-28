@@ -228,4 +228,23 @@ function editComment($conn, $id, $comment)
     $sql = "UPDATE comments SET content = '$comment' WHERE id = '$id'";
     return $conn->query($sql);
 }
+function logOut()
+{
+    session_start();
+    session_unset();
+    session_destroy();
+    header("Location: login.php");
+    exit();
+}
+
+function lastActivity()
+{
+    // Check if last activity was set
+    if (isset($_SESSION['last_activity']) && time() - $_SESSION['last_activity'] > 600) {
+        session_unset();
+        session_destroy();
+        header("Location: login.php"); // mengarahkan ke halaman login
+    }
+    $_SESSION['last_activity'] = time(); // Update waktu aktif terakhir
+}
 ?>
