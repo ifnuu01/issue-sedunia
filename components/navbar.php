@@ -26,14 +26,15 @@ function navbar()
         </a>
     </div>
 
-    <a href="editProfile.php?id=' . htmlspecialchars($userID) . '" class="setting-icon setting w-12 h-12 flex items-center justify-center rounded-full">
-        <img src="assets/icons/setting.svg" alt="setting">
-    </a>
+    <div>
+        <a href="editProfile.php?id=' . htmlspecialchars($userID) . '" class="setting-icon setting w-12 h-12 flex items-center justify-center rounded-full">
+            <img src="assets/icons/setting.svg" alt="setting">
+        </a>
+        <a href="logout.php" class="setting-icon setting w-12 h-12 flex items-center justify-center rounded-full" onclick="return confirm(\'Yakin ingin logout?\')">
+            <img src="assets/icons/logout.svg" alt="logout">
+        </a>
+    </div>
 </nav>
         ';
 }
 ?>
-
-<nav>
-
-</nav>
