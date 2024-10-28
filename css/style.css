@@ -17,6 +17,7 @@ body {
   right: 16px;
   display: flex;
   padding: 12px;
+  z-index: 999999999;
 }
 
 .navbar-options {
@@ -50,6 +51,48 @@ body {
   backdrop-filter: blur(4px);
 }
 
+.music-container {
+  position: fixed;
+  top: 24px;
+  left: 100px;
+}
+
+.post-photo {
+  width: 100%;
+  height: fit-content;
+  object-fit: cover;
+  overflow: hidden;
+}
+
+.post-avatar-mobile img,
+.post-avatar-desktop img,
+.post-photo img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  overflow: hidden;
+}
+
+.comment-line {
+  position: relative;
+}
+
+.comment-line::after {
+  content: "";
+  position: absolute;
+  top: -24px;
+  left: 24px;
+  width: 2px;
+  height: 24px;
+  background-color: var(--foreground-color);
+}
+
+.post-avatar-mobile {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
 @media (min-width: 768px) {
   body {
     padding-bottom: 24px;
@@ -79,6 +122,12 @@ body {
 
   .post-avatar-desktop {
     display: flex;
+    width: 100%;
+    height: fit-content;
+    object-fit: cover;
+    overflow: hidden;
+    align-items: center;
+    justify-content: center;
   }
 
   .post-avatar-mobile {
