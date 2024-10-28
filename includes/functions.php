@@ -2,9 +2,7 @@
 
 include 'connection.php';
 
-
 // ifnu buat
-
 function registrasi($conn, $username, $fullname, $email, $password)
 {
     $sql = "SELECT id FROM users WHERE username=? OR email=?";
@@ -16,7 +14,7 @@ function registrasi($conn, $username, $fullname, $email, $password)
     if ($stmt->num_rows > 0) {
         return [
             "status" => false,
-            "message" => "Username or email already exists!"
+            "message" => "Username already exists!"
         ];
     }
     $stmt->close();
@@ -37,16 +35,12 @@ function registrasi($conn, $username, $fullname, $email, $password)
     $stmt = $conn->prepare($sql);
     $stmt->bind_param("ssss", $username, $fullname, $email, $password);
 
-
-    if ($stmt->execute()) 
-    {
+    if ($stmt->execute()) {
         return [
             "status" => true,
             "message" => "Successfully registered!"
         ];
-    } 
-    else 
-    {
+    } else {
         return [
             "status" => false,
             "message" => "Failed to register!"
@@ -67,7 +61,6 @@ function registrasi($conn, $username, $fullname, $email, $password)
 // }
 
 // ifnu buat
-
 function login($conn, $usernameOrEmail, $password)
 {
     $sql = "SELECT id, username, fullname, email, password, role FROM users WHERE username=? OR email=?";
@@ -79,7 +72,7 @@ function login($conn, $usernameOrEmail, $password)
     if ($result->num_rows === 0) {
         return [
             "status" => false,
-            "message" => "Username or email not registered!"
+            "message" => "Username or email not found!"
         ];
     }
 
@@ -130,7 +123,7 @@ function getAllPosts($conn)
 {
     $sql = "
         SELECT 
-            p.id AS post_id,
+            p.id as post_id,
             p.title,
             p.content,
             p.created_at,
@@ -248,7 +241,7 @@ function getSinglePost($conn, $postId)
     }
 
     $post = $result->fetch_assoc();
-    
+
     $sqlComments = "
         SELECT 
             c.id,
@@ -337,7 +330,7 @@ function getSinglePost($conn, $postId)
 function getAllUsers($conn)
 {
     $sql = "SELECT id, username, fullname, email, created_at, photo FROM users WHERE role = 'user'";
-    
+
     $stmt = $conn->prepare($sql);
     $stmt->execute();
     $result = $stmt->get_result();
@@ -470,115 +463,6 @@ function getProfileUserId($conn, $userId)
     while ($post = $resultPosts->fetch_assoc()) {
         $posts[] = [
             "user_id" => $userId,
-}
-
-// cara penggunaan getAllPosts
-
-// $allPosts = getAllPosts($conn);
-
-// if (empty($allPosts)) 
-// {
-//     echo "Tidak ada postingan yang tersedia.";
-// } else 
-// {
-//     foreach ($allPosts as $post) {
-//         echo "isSolve: " . $post['isSolve'] . "<br>";
-//         echo "Title: " . $post['title'] . "<br>";
-//         echo "Created At: " . $post['created_at'] . "<br>";
-//         echo "User ID: " . $post['user_id'] . "<br>";
-//         echo "Author: " . $post['author']['fullname'] . " (" . $post['author']['username'] . ")<br>";
-//         echo "Category: " . $post['category'] . "<br>";
-//         echo "Comments: " . $post['comment_count'] . "<br>";
-//         echo "Content: " . $post['content'] . "<br>";
-//         echo "watching_counter: " . $post['watching_counter'] . "<br>";
-//         echo "share_counter: " . $post['share_counter'] . "<br><br>";
-//     }
-// }
-
-function getSinglePost($conn, $postId)
-{
-    $sql = "
-        SELECT 
-            p.id,
-            p.title,
-            p.content,
-            p.created_at,
-            p.photo,
-            p.watching_counter,
-            p.share_counter,
-            p.isSolve,
-            u.id,
-            u.username AS author,
-            u.fullname AS author_fullname,
-            u.photo AS author_photo,
-            c.name AS category
-        FROM 
-            posts p
-        JOIN 
-            users u ON p.user_id = u.id
-        JOIN 
-            categories c ON p.category_id = c.id
-        WHERE 
-            p.id = ?
-    ";
-
-    $stmt = $conn->prepare($sql);
-    $stmt->bind_param("i", $postId);
-    $stmt->execute();
-    $result = $stmt->get_result();
-
-    if ($result->num_rows === 0) {
-        return [
-            "status" => false,
-            "message" => "Post not found!"
-        ];
-    }
-
-    $post = $result->fetch_assoc();
-
-    $sqlComments = "
-        SELECT 
-            c.id,
-            c.content,
-            c.created_at,
-            u.id,
-            u.username AS commenter,
-            u.fullname AS commenter_fullname,
-            u.photo AS commenter_photo
-        FROM 
-            comments c
-        JOIN 
-            users u ON c.user_id = u.id
-        WHERE 
-            c.post_id = ?
-        ORDER BY 
-            c.created_at ASC
-    ";
-
-    $stmtComments = $conn->prepare($sqlComments);
-    $stmtComments->bind_param("i", $postId);
-    $stmtComments->execute();
-    $commentsResult = $stmtComments->get_result();
-
-    $comments = [];
-    while ($comment = $commentsResult->fetch_assoc()) {
-        $comments[] = [
-            "id" => $comment['id'],
-            "content" => $comment['content'],
-            "created_at" => $comment['created_at'],
-            "commenter" => [
-                "id" => $comment['id'],
-                "username" => $comment['commenter'],
-                "fullname" => $comment['commenter_fullname'],
-                "photo" => $comment['commenter_photo']
-            ]
-        ];
-    }
-
-    return [
-        "status" => true,
-        "post" => [
-            "user_id" => $post['id'],
             "id" => $post['id'],
             "title" => $post['title'],
             "content" => $post['content'],
@@ -641,262 +525,6 @@ function addPost($conn, $userId, $categoryId, $title, $content, $imgFile = null)
         return [
             "status" => false,
             "message" => "Title and category are required."
-=======
-            "author" => [
-                "username" => $post['author'],
-                "fullname" => $post['author_fullname'],
-                "photo" => $post['author_photo']
-            ],
-            "category" => $post['category']
-        ],
-        "comments" => $comments
-    ];
-}
-
-
-// cara penggunaan getSinglePost
-// $postId = 1; 
-// $singlePost = getSinglePost($conn, $postId);
-
-// if ($singlePost['status']) {
-//     $post = $singlePost['post'];
-//     echo "Created At: " . $post['created_at'] . "<br>";
-//     echo "Title: " . $post['title'] . "<br>";
-//     echo "Author: " . $post['author']['fullname'] . " (" . $post['author']['username'] . ")<br>";
-//     echo "Category: " . $post['category'] . "<br>";
-//     echo "Content: " . $post['content'] . "<br><br>";
-
-//     echo "Comments:<br>";
-//     foreach ($singlePost['comments'] as $comment) {
-//         echo $comment['created_at'] . "<br>";
-//         echo "- " . $comment['commenter']['fullname'] . " (" . $comment['commenter']['username'] . "): " . $comment['content'] . "<br><br>";
-//     }
-// } else {
-//     echo $singlePost['message'];
-// }
-
-
-function getAllUsers($conn)
-{
-    $sql = "SELECT id, username, fullname, email, created_at, photo FROM users WHERE role = 'user'";
-
-    $stmt = $conn->prepare($sql);
-    $stmt->execute();
-    $result = $stmt->get_result();
-
-    $users = [];
-
-    while ($user = $result->fetch_assoc()) {
-        $users[] = [
-            "id" => $user['id'],
-            "username" => $user['username'],
-            "fullname" => $user['fullname'],
-            "email" => $user['email'],
-            "created_at" => $user['created_at'],
-            "photo" => $user['photo']
-        ];
-    }
-
-    if (empty($users)) {
-        return [
-            "status" => false,
-            "message" => "Ops!. User not found!"
-        ];
-    }
-    return [
-        "status" => true,
-        "users" => $users
-    ];
-}
-
-// cara penggunaan getAllUsers
-    $imagePath = null;
-
-    if ($imgFile && $imgFile['error'] == 0) {
-        if ($imgFile['size'] > 2 * 1024 * 1024) {
-            return [
-                "status" => false,
-                "message" => "Image size exceeds the maximum limit of 2 MB."
-            ];
-        }
-
-        $imgInfo = getimagesize($imgFile['tmp_name']);
-        $allowedMimeTypes = ['image/jpeg', 'image/png', 'image/gif'];
-
-        if ($imgInfo === false || !in_array($imgInfo['mime'], $allowedMimeTypes)) {
-            return [
-                "status" => false,
-                "message" => "Image formats are not supported. Only JPG, PNG, and GIF are allowed."
-// $allUsers = getAllUsers($conn);
-
-// if ($allUsers['status']) {
-//     echo "Daftar Pengguna:<br>";
-//     foreach ($allUsers['users'] as $user) {
-//         echo "ID: " . $user['id'] . "<br>";
-//         echo "Username: " . $user['username'] . "<br>";
-//         echo "Fullname: " . $user['fullname'] . "<br>";
-//         echo "Email: " . $user['email'] . "<br>";
-//         echo "Created At: " . $user['created_at'] . "<br>";
-//         echo "Photo: <img src='" . $user['photo'] . "' alt='Photo' width='50'><br><br>";
-//     }
-// } else {
-//     // Menampilkan pesan jika tidak ada pengguna ditemukan
-//     echo $allUsers['message'];
-// }
-
-function getCategories($conn)
-{
-    $sql = "SELECT id, name FROM categories";
-    $result = $conn->query($sql);
-
-    $categories = [];
-
-    if ($result->num_rows > 0) {
-        while ($row = $result->fetch_assoc()) {
-            $categories[] = [
-                "id" => $row['id'],
-                "name" => $row['name']
-            ];
-        }
-    }
-        $allowedExtensions = ['jpg', 'jpeg', 'png', 'gif'];
-        $fileExtension = strtolower(pathinfo($imgFile['name'], PATHINFO_EXTENSION));
-
-        if (!in_array($fileExtension, $allowedExtensions)) {
-            return [
-                "status" => false,
-                "message" => "File extensions are not supported. Only JPG, PNG, and GIF are allowed."
-            ];
-        }
-
-        
-    return $categories;
-}
-
-// cara penggunaan getCategories
-
-// $categories = getCategories($conn);
-
-// if (empty($categories)) {
-//     echo "Tidak ada kategori yang tersedia.";
-// } else {
-//     echo "Daftar Kategori:<br>";
-//     foreach ($categories as $category) {
-//         echo "ID: " . $category['id'] . "<br>";
-//         echo "Name: " . $category['name'] . "<br><br>";
-//     }
-// }
-
-
-function getProfileUserId($conn, $userId)
-{
-
-    $sqlUser = "SELECT id, username, fullname, bio, email, photo, created_at, role FROM users WHERE id = ?";
-    $stmtUser = $conn->prepare($sqlUser);
-    $stmtUser->bind_param("i", $userId);
-    $stmtUser->execute();
-    $resultUser = $stmtUser->get_result();
-
-    if ($resultUser->num_rows == 0) {
-        return [
-            "status" => false,
-            "message" => "Pengguna tidak ditemukan."
-        ];
-    }
-
-    $user = $resultUser->fetch_assoc();
-
-    $sqlPosts = "
-        SELECT 
-            p.id, 
-            p.title, 
-            p.content, 
-            p.created_at, 
-            p.photo, 
-            p.watching_counter, 
-            p.share_counter, 
-            p.isSolve, 
-            c.name AS category,
-            (SELECT COUNT(*) FROM comments WHERE comments.post_id = p.id) AS comment_count
-        FROM 
-            posts p
-        LEFT JOIN 
-            categories c ON p.category_id = c.id
-        WHERE 
-            p.user_id = ?
-        ORDER BY 
-            p.created_at DESC";
-
-    $stmtPosts = $conn->prepare($sqlPosts);
-    $stmtPosts->bind_param("i", $userId);
-    $stmtPosts->execute();
-    $resultPosts = $stmtPosts->get_result();
-
-    $posts = [];
-    while ($post = $resultPosts->fetch_assoc()) {
-        $posts[] = [
-            "user_id" => $userId,
-            "id" => $post['id'],
-            "title" => $post['title'],
-            "content" => $post['content'],
-            "created_at" => $post['created_at'],
-            "photo" => $post['photo'],
-            "watching_counter" => $post['watching_counter'],
-            "share_counter" => $post['share_counter'],
-            "isSolve" => $post['isSolve'],
-            "category" => $post['category'],
-            "comment_count" => $post['comment_count']
-        ];
-    }
-
-    return [
-        "status" => true,
-        "user" => $user,
-        "posts" => $posts
-    ];
-}
-
-// cara penggunaan getProfileUserId
-
-// $userId = 1; // Ganti dengan ID pengguna yang ingin diambil profilnya
-// $profile = getProfileUserId($conn, $userId);
-
-// if ($profile['status']) {
-//     $user = $profile['user'];
-//     echo "Profil Pengguna:<br>";
-//     echo "Username: " . $user['username'] . "<br>";
-//     echo "Fullname: " . $user['fullname'] . "<br>";
-//     echo "Bio: " . $user['bio'] . "<br>";
-//     echo "Email: " . $user['email'] . "<br>";
-//     echo "Role: " . $user['role'] . "<br>";
-//     echo "Joined at: " . $user['created_at'] . "<br>";
-//     echo "Photo: <img src='" . $user['photo'] . "' alt='Photo' width='50'><br><br>";
-
-//     echo "Postingan:<br>";
-//     if (empty($profile['posts'])) {
-//         echo "Tidak ada postingan yang ditemukan.<br>";
-//     } else {
-//         foreach ($profile['posts'] as $post) {
-//             echo "Title: " . $post['title'] . "<br>";
-//             echo "Created At: " . $post['created_at'] . "<br>";
-//             echo "Category: " . $post['category'] . "<br>";
-//             echo "Content: " . $post['content'] . "<br>";
-//             echo "watching_counter: " . $post['watching_counter'] . "<br>";
-//             echo "share_counter: " . $post['share_counter'] . "<br>";
-//             echo "Comments: " . $post['comment_count'] . "<br>";
-//             echo "<hr>";
-//         }
-//     }
-// } else {
-//     echo $profile['message'];
-// }
-
-function addPost($conn, $userId, $categoryId, $title, $content, $imgFile = null)
-{
-    if (empty($title) || empty($categoryId)) {
-        return [
-            "status" => false,
-            "message" => "Title and category are required."
         ];
     }
 
@@ -929,6 +557,7 @@ function addPost($conn, $userId, $categoryId, $title, $content, $imgFile = null)
                 "message" => "File extensions are not supported. Only JPG, PNG, and GIF are allowed."
             ];
         }
+
 
         $uniqueName = uniqid("post_", true) . "." . $fileExtension;
         $uploadDir = 'img/posts/';
@@ -964,7 +593,6 @@ function addPost($conn, $userId, $categoryId, $title, $content, $imgFile = null)
 // demonya ada difile demoAddPost.php
 
 // ifnu buat
-
 function addComment($conn, $postId, $userId, $content)
 {
     if (empty($content)) {
@@ -994,7 +622,6 @@ function addComment($conn, $postId, $userId, $content)
 // demonya ada difile demoAddComment.php
 
 // ifnu buat
-
 function search($conn, $keyword)
 {
     $keyword = "%" . $conn->real_escape_string($keyword) . "%";
@@ -1079,7 +706,7 @@ function top5WatchingCounter($conn)
     $result = $conn->query($sql);
 
     $posts = [];
-    
+
     if ($result->num_rows > 0) {
         while ($row = $result->fetch_assoc()) {
             $posts[] = [
@@ -1115,4 +742,3 @@ function top5WatchingCounter($conn)
 //         echo "Category: " . $post['category'] . "<br><br>";
 //     }
 // }
-// demonya ada difile demoSearch.php

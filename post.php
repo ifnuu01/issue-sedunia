@@ -18,6 +18,7 @@ if (isset($_POST['comment'])) {
     echo "<script>alert('" . $result['message'] . "');</script>";
 }
 
+incrementWatchingCounter($conn, $_GET['id']);
 $post = getSinglePost($conn, $_GET['id']);
 ?>
 
@@ -94,7 +95,7 @@ $post = getSinglePost($conn, $_GET['id']);
                     </div>
                     <div class="px-6 py-1 flex gap-1 font-medium border shadow rounded green">
                         <img src="assets/icons/share.svg" alt="share">
-                        <div><?= $post['post']['watching_counter'] ?></div>
+                        <div><?= $post['post']['share_counter'] ?></div>
                     </div>
                 </div>
             </div>

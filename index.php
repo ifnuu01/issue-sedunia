@@ -148,7 +148,7 @@ $allPosts = getAllPosts($conn);
                     </div>
                     <button onclick="shareLink(<?= $post['id'] ?>)" class="share-btn px-6 py-1 flex gap-1 font-medium border shadow rounded green">
                         <img src="assets/icons/share.svg" alt="share">
-                        <div><?= $post['watching_counter'] ?></div>
+                        <div><?= $post['share_counter'] ?></div>
                     </button>
                 </div>
             </div>
