@@ -96,7 +96,10 @@ $profileUser = getProfileUserId($conn, $_GET['id']);
             </div>
             <div class="mb-2"><?= $profileUser['user']['bio'] ?></div>
             <div class="mb-6 text-sm">Joined <?= explode(' ', $profileUser['user']['created_at'])[0] ?></div>
-            <a href="editProfile.php?id=<?= $profileUser['user']['id'] ?>" class="btn px-6 py-2 font-bold flex text-center justify-center border shadow rounded-lg">Edit Profile</a>
+            <div class="flex w-full gap-3">
+                <a href="editProfile.php?id=<?= $profileUser['user']['id'] ?>" class="btn w-full px-6 py-2 font-bold flex text-center justify-center border shadow rounded-lg">Edit Profile</a>
+                <a href="logout.php" class="btn w-full px-6 py-2 font-bold flex text-center justify-center border shadow rounded-lg" onclick="return confirm('Are you sure you want to logout?')">Logout</a>
+            </div>
         </section>
 
         <h2 class="heading text-center mb-6">Posts</h2>
