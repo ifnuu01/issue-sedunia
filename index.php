@@ -39,6 +39,9 @@ $allPosts = getAllPosts($conn);
     <link rel="stylesheet" href="css/style.css">
     <link rel="stylesheet" href="css/components.css">
 
+    <!-- favicon -->
+    <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
+
     <title>Home | Issue Sedunia</title>
 </head>
 

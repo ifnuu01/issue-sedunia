@@ -40,6 +40,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     <link rel="stylesheet" href="css/components.css">
     <link rel="stylesheet" href="css/auth.css">
 
+    <!-- favicon -->
+    <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
+
     <title>Register | Issue Sedunia</title>
 </head>
 
