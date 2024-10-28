@@ -685,7 +685,7 @@ function top5WatchingCounter($conn)
 {
     $sql = "
         SELECT 
-            p.id,
+            p.id AS post_id,
             p.title,
             p.watching_counter,
             u.id,
@@ -710,7 +710,7 @@ function top5WatchingCounter($conn)
     if ($result->num_rows > 0) {
         while ($row = $result->fetch_assoc()) {
             $posts[] = [
-                "id" => $row['id'],
+                "id" => $row['post_id'],
                 "title" => $row['title'],
                 "watching_counter" => $row['watching_counter'],
                 "author" => [

@@ -10,6 +10,8 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
     $keyword = htmlspecialchars($_POST['keyword']);
     $searchResult = search($conn, $keyword);
 }
+
+$top5Post = top5WatchingCounter($conn);
 ?>
 
 <!DOCTYPE html>
@@ -116,6 +118,31 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
                 <div class="w-full p-c cream shadow border rounded-full">No posts match!</div>
             </section>
         <?php endif ?>
+    <?php endif; ?>
+
+    <?php if (isset($top5Post)): ?>
+        <h2 class="heading text-center mb-6">Top 5 Post</h2>
+        <?php foreach ($top5Post as $post): ?>
+            <a href="post.php?id=<?= $post['id'] ?>" class="flex gap-6 mb-6">
+                <div class="w-full cream shadow border rounded-lg">
+                    <div class="p-c flex items-center justify-between border-b flex-wrap gap-3">
+                        <div class="flex items-center gap-3">
+                            <div class="heading capitalize"><?= $post['author']['username']; ?></div>
+                        </div>
+                        <div class="flex items-center gap-3 flex-wrap">
+                            <div class="capitalize px-6 py-1 font-medium border rounded shadow <?= $post['category']; ?>"><?= $post['category'] ?></div>
+                        </div>
+                    </div>
+                    <h3 class="px-6 py-4 heading"><?= $post['title']; ?></h3>
+                    <div class="p-c flex items-center gap-3 flex-wrap">
+                        <div class="px-6 py-1 flex gap-1 font-medium border shadow rounded blue">
+                            <img src="assets/icons/views.svg" alt="views">
+                            <div><?= $post['watching_counter'] ?></div>
+                        </div>
+                    </div>
+                </div>
+            </a>
+        <?php endforeach; ?>
     <?php endif; ?>
     <script src="js/script.js"></script>
 </body>
