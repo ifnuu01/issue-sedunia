@@ -2,6 +2,7 @@
 
 include 'connection.php';
 
+// ifnu buat
 function registrasi($conn, $username, $fullname, $email, $password)
 {
     $sql = "SELECT id FROM users WHERE username=? OR email=?";
@@ -40,14 +41,14 @@ function registrasi($conn, $username, $fullname, $email, $password)
     {
         return [
             "status" => true,
-            "message" => "Registrasi berhasil!"
+            "message" => "Successfully registered!"
         ];
     } 
     else 
     {
         return [
             "status" => false,
-            "message" => "Registrasi gagal!"
+            "message" => "Failed to register!"
         ];
     }
 }
@@ -64,6 +65,7 @@ function registrasi($conn, $username, $fullname, $email, $password)
 //     echo "<script>alert('".$result['message']."')</script>";
 // }
 
+// ifnu buat
 function login($conn, $usernameOrEmail, $password)
 {
     $sql = "SELECT id, username, fullname, email, password, role FROM users WHERE username=? OR email=?";
@@ -75,7 +77,7 @@ function login($conn, $usernameOrEmail, $password)
     if ($result->num_rows === 0) {
         return [
             "status" => false,
-            "message" => "Username atau email tidak terdaftar!"
+            "message" => "Username or email not found!"
         ];
     }
 
@@ -84,13 +86,13 @@ function login($conn, $usernameOrEmail, $password)
     if (!password_verify($password, $user['password'])) {
         return [
             "status" => false,
-            "message" => "Password salah!"
+            "message" => "Password is incorrect!"
         ];
     }
 
     return [
         "status" => true,
-        "message" => "Login berhasil!",
+        "message" => "Successfully logged in!",
         "data" => [
             "id" => $user['id'],
             "username" => $user['username'],
@@ -121,7 +123,7 @@ function login($conn, $usernameOrEmail, $password)
 //     echo "<script>alert('".$result['message']."')</script>";
 // }
 
-
+// ifnu buat
 function getAllPosts($conn)
 {
     $sql = "
@@ -203,6 +205,7 @@ function getAllPosts($conn)
 //     }
 // }
 
+// ifnu buat
 function getSinglePost($conn, $postId)
 {
     $sql = "
@@ -328,7 +331,7 @@ function getSinglePost($conn, $postId)
 //     echo $singlePost['message'];
 // }
 
-
+// ifnu buat
 function getAllUsers($conn)
 {
     $sql = "SELECT id, username, fullname, email, created_at, photo FROM users WHERE role = 'user'";
@@ -381,6 +384,7 @@ function getAllUsers($conn)
 //     echo $allUsers['message'];
 // }
 
+// ifnu buat
 function getCategories($conn)
 {
     $sql = "SELECT id, name FROM categories";
@@ -415,6 +419,7 @@ function getCategories($conn)
 // }
 
 
+// ifnu buat
 function getProfileUserId($conn, $userId)
 {
 
@@ -518,6 +523,7 @@ function getProfileUserId($conn, $userId)
 //     echo $profile['message'];
 // }
 
+// ifnu buat
 function addPost($conn, $userId, $categoryId, $title, $content, $imgFile = null)
 {
     if (empty($title) || empty($categoryId)) {
@@ -591,7 +597,7 @@ function addPost($conn, $userId, $categoryId, $title, $content, $imgFile = null)
 }
 // demonya ada difile demoAddPost.php
 
-
+// ifnu buat
 function addComment($conn, $postId, $userId, $content)
 {
     if (empty($content)) {
@@ -620,7 +626,7 @@ function addComment($conn, $postId, $userId, $content)
 
 // demonya ada difile demoAddComment.php
 
-
+// ifnu buat
 function search($conn, $keyword)
 {
     $keyword = "%" . $conn->real_escape_string($keyword) . "%";
@@ -652,3 +658,92 @@ function search($conn, $keyword)
 }
 
 // demonya ada difile demoSearch.php
+
+// ifnu buat
+function incrementWatchingCounter($conn, $postId)
+{
+    $sql = "UPDATE posts SET watching_counter = watching_counter + 1 WHERE id = ?";
+    $stmt = $conn->prepare($sql);
+    $stmt->bind_param("i", $postId);
+    $stmt->execute();
+    $stmt->close();
+}
+
+// cara penggunaan 
+// incrementWatchingCounter($conn, $postId);
+
+// ifnu buat
+function incrementShareCounter($conn, $postId)
+{
+    $sql = "UPDATE posts SET share_counter = share_counter + 1 WHERE id = ?";
+    $stmt = $conn->prepare($sql);
+    $stmt->bind_param("i", $postId);
+    $stmt->execute();
+    $stmt->close();
+}
+
+// cara penggunaan
+// incrementShareCounter($conn, $postId);
+
+// ifnu buat
+function top5WatchingCounter($conn)
+{
+    $sql = "
+        SELECT 
+            p.id,
+            p.title,
+            p.watching_counter,
+            u.id,
+            u.username AS author,
+            u.fullname AS author_fullname,
+            c.name AS category
+        FROM 
+            posts p
+        JOIN 
+            users u ON p.user_id = u.id
+        JOIN 
+            categories c ON p.category_id = c.id
+        ORDER BY 
+            p.watching_counter DESC
+        LIMIT 5
+    ";
+
+    $result = $conn->query($sql);
+
+    $posts = [];
+    
+    if ($result->num_rows > 0) {
+        while ($row = $result->fetch_assoc()) {
+            $posts[] = [
+                "id" => $row['id'],
+                "title" => $row['title'],
+                "watching_counter" => $row['watching_counter'],
+                "author" => [
+                    "username" => $row['author'],
+                    "fullname" => $row['author_fullname']
+                ],
+                "category" => $row['category']
+            ];
+        }
+    }
+
+    return $posts;
+}
+
+
+// cara penggunaan top5WatchingCounter
+// $top5Watching = top5WatchingCounter($conn);
+
+// if (empty($top5Watching)) {
+//     echo "Tidak ada postingan yang tersedia.";
+// } else {
+//     echo "Top 5 Watching Counter:<br>";
+//     $index = 0;
+//     foreach ($top5Watching as $post) {
+//         echo "Top: " . ++$index . "<br>";
+//         echo "Title: " . $post['title'] . "<br>";
+//         echo "Watching Counter: " . $post['watching_counter'] . "<br>";
+//         echo "Author: " . $post['author']['fullname'] . " (" . $post['author']['username'] . ")<br>";
+//         echo "Category: " . $post['category'] . "<br><br>";
+//     }
+// }
