@@ -216,4 +216,16 @@ function editPost($conn, $id, $category, $title, $content, $photo)// fungsi edit
         }
     }
 }
+
+function deleteComment($conn, $id)
+{
+    $sql = "DELETE FROM comments WHERE id = '$id'";
+    return $conn->query($sql);
+}
+
+function editComment($conn, $id, $comment)
+{
+    $sql = "UPDATE comments SET content = '$comment' WHERE id = '$id'";
+    return $conn->query($sql);
+}
 ?>
