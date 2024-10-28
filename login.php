@@ -42,7 +42,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     <link rel="stylesheet" href="css/auth.css">
 
     <!-- favicon -->
-    <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
+    <link rel="shortcut icon" href="favicon.svg" type="image/x-icon">
 
     <title>Login | Issue Sedunia</title>
 </head>

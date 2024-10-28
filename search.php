@@ -1,3 +1,7 @@
+<?php
+session_start();
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -14,7 +18,7 @@
     <link rel="stylesheet" href="css/components.css">
 
     <!-- favicon -->
-    <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
+    <link rel="shortcut icon" href="favicon.svg" type="image/x-icon">
 
     <title>Search | Issue Sedunia</title>
 </head>

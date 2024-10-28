@@ -17,6 +17,9 @@ session_start();
     <link rel="stylesheet" href="css/style.css">
     <link rel="stylesheet" href="css/components.css">
 
+    <!-- favicon -->
+    <link rel="shortcut icon" href="favicon.svg" type="image/x-icon">
+
     <title>Edit Profile | Issue Sedunia</title>
 </head>
 
