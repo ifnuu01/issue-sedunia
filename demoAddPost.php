@@ -5,6 +5,7 @@ require 'includes/functions.php';
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $userId = 8; //sembarang aja bah. tapi nnt pake session['user]['id'] aja
+
     $categoryId = $_POST['category'];
     $title = $_POST['title'];
     $content = $_POST['content'];
@@ -17,14 +18,12 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Tambah Postingan</title>
 </head>
-
 <body>
     <h1>Tambah Postingan Baru</h1>
     <form action="" method="POST" enctype="multipart/form-data">

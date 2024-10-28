@@ -33,5 +33,4 @@ if (isset($_POST['comment'])) {
         <button type="submit" name="comment">Tambah Komentar</button>
     </form>
 </body>
-
 </html>
