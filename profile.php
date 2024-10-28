@@ -1,3 +1,18 @@
+<?php
+include 'includes/connection.php';
+include 'includes/functions.php';
+
+session_start();
+
+$user = $_SESSION['user'];
+if (!isset($user)) {
+    header('Location: login.php');
+}
+
+$profileUser = getProfileUserId($conn, $_GET['id']);
+?>
+
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -66,91 +81,76 @@
         </div>
     </dialog>
 
-    <section class="profile mb-6 p-c cream border rounded-lg shadow">
-        <div class="flex items-center justify-between mb-2">
-            <div>
-                <h3 class="heading text-lg">Raana Fuyu</h3>
-                <div>Raana</div>
+    <?php if ($profileUser['status']): ?>
+        <section class="profile mb-6 p-c cream border rounded-lg shadow">
+            <div class="flex items-center justify-between mb-2">
+                <div>
+                    <h3 class="heading text-lg"><?= $profileUser['user']['fullname'] ?></h3>
+                    <div><?= $profileUser['user']['username'] ?></div>
+                </div>
+                <div class="avatar-lg white border shadow rounded-full"></div>
             </div>
-            <div class="avatar-lg white border shadow rounded-full"></div>
-        </div>
-        <div class="mb-2">Lorem, ipsum dolor sit amet consectetur adipisicing elit. Voluptatem sit numquam optio nemo perferendis odit quisquam accusantium distinctio, earum corporis. Hic, quibusdam saepe! Soluta atque magnam vero nostrum maxime nisi?</div>
-        <div class="mb-6 text-sm">Joined at 2024-10-17</div>
-        <a href="" class="btn px-6 py-2 font-bold flex text-center justify-center border shadow rounded-lg">Edit Profile</a>
-    </section>
+            <div class="mb-2"><?= $profileUser['user']['bio'] ?></div>
+            <div class="mb-6 text-sm">Joined <?= explode(' ', $profileUser['user']['created_at'])[0] ?></div>
+            <a href="editProfile.php?id=<?= $profileUser['user']['id'] ?>" class="btn px-6 py-2 font-bold flex text-center justify-center border shadow rounded-lg">Edit Profile</a>
+        </section>
 
-    <h2 class="heading text-center mb-6">Posts</h2>
-    <article class="flex gap-6 mb-6">
-        <div class="post-avatar-desktop avatar mt-3 white shadow border rounded-full"></div>
-        <div class="w-full cream shadow border rounded-lg">
-            <div class="p-c flex items-center justify-between border-b flex-wrap gap-3">
-                <div class="flex items-center gap-3">
-                    <div class="post-avatar-mobile avatar white shadow border rounded-full"></div>
-                    <h3 class="heading">Raana</h3>
-                    <p class="text-sm">2024-10-17</p>
-                </div>
-                <div class="flex items-center gap-3 flex-wrap">
-                    <div class="px-6 py-1 font-medium border rounded shadow yellow">Front-End</div>
-                    <div class="px-6 py-1 font-medium border rounded shadow red">Not Solved</div>
-                    <div class="w-10 h-10 flex items-center justify-center light-green border shadow rounded">
-                        <img src="assets/icons/menu.svg" alt="menu">
+        <h2 class="heading text-center mb-6">Posts</h2>
+        <?php if ($profileUser['posts']): ?>
+            <?php foreach ($profileUser['posts'] as $post): ?>
+                <article class="flex gap-6 mb-6">
+                    <div class="post-avatar-desktop avatar mt-3 white shadow border rounded-full">
+                        <img src="https://ui-avatars.com/api/?name=<?= $profileUser['user']['username'] ?>" alt="Avatar">
                     </div>
-                </div>
-            </div>
-            <h3 class="px-6 py-4 heading">Lorem ipsum dolor sit amet</h3>
-            <div class="px-6 text-justify">Lorem ipsum dolor sit, amet consectetur adipisicing elit. Nihil ipsam ea laudantium, vero hic praesentium molestiae quia reprehenderit accusantium. Culpa porro ullam consequatur incidunt similique necessitatibus, officia nemo mollitia autem.</div>
-            <div class="p-c flex items-center gap-3 flex-wrap">
-                <div class="px-6 py-1 flex gap-1 font-medium border shadow rounded pink">
-                    <img src="assets/icons/comment.svg" alt="comment">
-                    <div>9</div>
-                </div>
-                <div class="px-6 py-1 flex gap-1 font-medium border shadow rounded blue">
-                    <img src="assets/icons/views.svg" alt="views">
-                    <div>9</div>
-                </div>
-                <div class="px-6 py-1 flex gap-1 font-medium border shadow rounded green">
-                    <img src="assets/icons/share.svg" alt="share">
-                    <div>9</div>
-                </div>
-            </div>
-        </div>
-    </article>
-
-    <article class="flex gap-6 mb-6">
-        <div class="post-avatar-desktop avatar mt-3 white shadow border rounded-full"></div>
-        <div class="w-full cream shadow border rounded-lg">
-            <div class="p-c flex items-center justify-between border-b flex-wrap gap-3">
-                <div class="flex items-center gap-3">
-                    <div class="post-avatar-mobile avatar white shadow border rounded-full"></div>
-                    <h3 class="heading">Raana</h3>
-                    <p class="text-sm">2024-10-17</p>
-                </div>
-                <div class="flex items-center gap-3 flex-wrap">
-                    <div class="px-6 py-1 font-medium border rounded shadow yellow">Front-End</div>
-                    <div class="px-6 py-1 font-medium border rounded shadow red">Not Solved</div>
-                    <div class="w-10 h-10 flex items-center justify-center light-green border shadow rounded">
-                        <img src="assets/icons/menu.svg" alt="menu">
+                    <div class="w-full cream shadow border rounded-lg">
+                        <div class="p-c flex items-center justify-between border-b flex-wrap gap-3">
+                            <div class="flex items-center gap-3">
+                                <div class="post-avatar-mobile avatar white shadow border rounded-full">
+                                    <img src="https://ui-avatars.com/api/?name=<?= $profileUser['user']['username'] ?>" alt="Avatar">
+                                </div>
+                                <h3 class="heading capitalize"><?= $profileUser['user']['username'] ?></h3>
+                                <p class="text-sm"><?= explode(' ', $post['created_at'])[0]; ?></p>
+                            </div>
+                            <div class="flex items-center gap-3 flex-wrap">
+                                <div class="capitalize px-6 py-1 font-medium border rounded shadow <?= $post['category']; ?>"><?= $post['category'] ?></div>
+                                <div class="px-6 py-1 font-medium border rounded shadow <?= $post['isSolve'] ? 'green' : 'red' ?>"><?= $post['isSolve'] ? 'Solved' : 'Not Solve'; ?></div>
+                                <?php if ($user['id'] == $post['user_id']): ?>
+                                    <div class="w-10 h-10 flex items-center justify-center light-green border shadow rounded">
+                                        <img src="assets/icons/menu.svg" alt="menu">
+                                    </div>
+                                <?php endif; ?>
+                            </div>
+                        </div>
+                        <h3 class="px-6 py-4 heading"><?= $post['title']; ?></h3>
+                        <div class="px-6 text-justify"><?= $post['content']; ?></div>
+                        <?php if ($post['photo']): ?>
+                            <div class="px-6">
+                                <div class="post-photo w-full rounded shadow border">
+                                    <img src="<?= $post['photo'] ?>" alt="Post Image">
+                                </div>
+                            </div>
+                        <?php endif ?>
+                        <div class="p-c flex items-center gap-3 flex-wrap">
+                            <a href="post.php?id=<?= $post['id'] ?>" class="px-6 py-1 flex gap-1 font-medium border shadow rounded pink">
+                                <img src="assets/icons/comment.svg" alt="comment">
+                                <div><?= $post['comment_count'] ?></div>
+                            </a>
+                            <div class="px-6 py-1 flex gap-1 font-medium border shadow rounded blue">
+                                <img src="assets/icons/views.svg" alt="views">
+                                <div><?= $post['watching_counter'] ?></div>
+                            </div>
+                            <button onclick="shareLink(<?= $post['id'] ?>)" class="share-btn px-6 py-1 flex gap-1 font-medium border shadow rounded green">
+                                <img src="assets/icons/share.svg" alt="share">
+                                <div><?= $post['watching_counter'] ?></div>
+                            </button>
+                        </div>
                     </div>
-                </div>
-            </div>
-            <h3 class="px-6 py-4 heading">Lorem ipsum dolor sit amet</h3>
-            <div class="px-6 text-justify">Lorem ipsum dolor sit, amet consectetur adipisicing elit. Nihil ipsam ea laudantium, vero hic praesentium molestiae quia reprehenderit accusantium. Culpa porro ullam consequatur incidunt similique necessitatibus, officia nemo mollitia autem.</div>
-            <div class="p-c flex items-center gap-3 flex-wrap">
-                <div class="px-6 py-1 flex gap-1 font-medium border shadow rounded pink">
-                    <img src="assets/icons/comment.svg" alt="comment">
-                    <div>9</div>
-                </div>
-                <div class="px-6 py-1 flex gap-1 font-medium border shadow rounded blue">
-                    <img src="assets/icons/views.svg" alt="views">
-                    <div>9</div>
-                </div>
-                <div class="px-6 py-1 flex gap-1 font-medium border shadow rounded green">
-                    <img src="assets/icons/share.svg" alt="share">
-                    <div>9</div>
-                </div>
-            </div>
-        </div>
-    </article>
+                </article>
+            <?php endforeach; ?>
+        <?php endif ?>
+    <?php else: ?>
+        <div>Tidak ada</div>
+    <?php endif; ?>
 
     <script src="js/script.js"></script>
 </body>

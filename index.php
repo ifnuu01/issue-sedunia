@@ -54,7 +54,9 @@ $allPosts = getAllPosts($conn);
     </div>
 
     <article class="btn-upload-modal flex gap-6 items-center mb-6 cursor-pointer">
-        <div class="avatar white shadow border rounded-full"></div>
+        <div class="avatar white shadow border rounded-full">
+            <img src="https://ui-avatars.com/api/?name=<?= $user['username'] ?>" alt="Avatar">
+        </div>
         <div class="w-full p-c cream shadow border rounded-full">Hi Raana! What's new?</div>
     </article>
 
@@ -69,7 +71,9 @@ $allPosts = getAllPosts($conn);
             <button type="button" class="cancel-post text-end font-medium">Cancel</button>
         </div>
         <div class="p-c flex gap-6">
-            <div class="avatar white rounded-full shadow border"></div>
+            <div class="avatar white shadow border rounded-full">
+                <img src="https://ui-avatars.com/api/?name=<?= $user['username'] ?>" alt="Avatar">
+            </div>
             <form action="" class="w-full" enctype="multipart/form-data" method="POST">
                 <div class="mb-6">
                     <label for="category" class="heading block mb-2">Category</label>
@@ -108,7 +112,7 @@ $allPosts = getAllPosts($conn);
                         <div class="post-avatar-mobile avatar white shadow border rounded-full">
                             <img src="https://ui-avatars.com/api/?name=<?= $post['author']['username'] ?>" alt="Avatar">
                         </div>
-                        <h3 class="heading capitalize"><?= $post['author']['username']; ?></h3>
+                        <a href="profile.php?id=<?= $post['user_id'] ?>" class="heading capitalize"><?= $post['author']['username']; ?></a>
                         <p class="text-sm"><?= explode(' ', $post['created_at'])[0]; ?></p>
                     </div>
                     <div class="flex items-center gap-3 flex-wrap">
