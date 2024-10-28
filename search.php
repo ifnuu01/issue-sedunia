@@ -1,5 +1,15 @@
 <?php
+include 'includes/connection.php';
+include 'includes/functions.php';
+
 session_start();
+
+$user = $_SESSION['user'];
+
+if ($_SERVER['REQUEST_METHOD'] == "POST") {
+    $keyword = htmlspecialchars($_POST['keyword']);
+    $searchResult = search($conn, $keyword);
+}
 ?>
 
 <!DOCTYPE html>
@@ -28,7 +38,7 @@ session_start();
     include 'components/navbar.php';
     echo navbar();
     ?>
-    <h2 class="heading text-center mb-6">Posts</h2>
+    <h2 class="heading text-center mb-6">Search</h2>
 
     <div class="music-container hidden p-c cream border shadow rounded-lg">
         <h2 class="font-bold mb-6">Soundboard</h2>
@@ -73,11 +83,40 @@ session_start();
         </div>
     </dialog>
 
-    <article class="btn-upload-modal flex gap-6 items-center mb-6">
-        <div class="avatar white shadow border rounded-full"></div>
-        <div class="w-full p-c cream shadow border rounded-full">Hi Raana! What's new?</div>
-    </article>
+    <form action="" method="POST" class="flex gap-6 items-center mb-6">
+        <div class="avatar white shadow border rounded-full">
+            <img src="https://ui-avatars.com/api/?name=<?= $user['username'] ?>" alt="Avatar">
+        </div>
+        <input type="text" name="keyword" class="w-full p-c cream shadow border rounded-full" placeholder="Search someting...">
+        <button type="submit" class="hidden"></button>
+    </form>
 
+    <?php if (isset($searchResult)): ?>
+        <h2 class="heading text-center mb-6">Users</h2>
+        <?php if (count($searchResult['users']) > 0): ?>
+            <?php foreach ($searchResult['users'] as $user): ?>
+                <section class="flex gap-6 items-center mb-6">
+                    <a href="profile.php?id=<?= $user['id'] ?>" class="w-full p-c cream shadow border rounded-full"><?= $user['username'] ?></a>
+                </section>
+            <?php endforeach ?>
+        <?php else: ?>
+            <section class="flex gap-6 items-center mb-6">
+                <div class="w-full p-c cream shadow border rounded-full">No users match!</div>
+            </section>
+        <?php endif ?>
+        <h2 class="heading text-center mb-6">Posts</h2>
+        <?php if (count($searchResult['posts']) > 0): ?>
+            <?php foreach ($searchResult['posts'] as $post): ?>
+                <section class="flex gap-6 items-center mb-6">
+                    <a href="post.php?id=<?= $post['id'] ?>" class="w-full p-c cream shadow border rounded-full"><?= $post['title'] ?></a>
+                </section>
+            <?php endforeach ?>
+        <?php else: ?>
+            <section class="flex gap-6 items-center mb-6">
+                <div class="w-full p-c cream shadow border rounded-full">No posts match!</div>
+            </section>
+        <?php endif ?>
+    <?php endif; ?>
     <script src="js/script.js"></script>
 </body>
 
