@@ -99,11 +99,15 @@ $allPosts = getAllPosts($conn);
 
     <?php foreach ($allPosts as $post): ?>
         <article class="flex gap-6 mb-6">
-            <div class="post-avatar-desktop avatar mt-3 white shadow border rounded-full"></div>
+            <div class="post-avatar-desktop avatar mt-3 white shadow border rounded-full">
+                <img src="https://ui-avatars.com/api/?name=<?= $post['author']['username'] ?>" alt="Avatar">
+            </div>
             <div class="w-full cream shadow border rounded-lg">
                 <div class="p-c flex items-center justify-between border-b flex-wrap gap-3">
                     <div class="flex items-center gap-3">
-                        <div class="post-avatar-mobile avatar white shadow border rounded-full"></div>
+                        <div class="post-avatar-mobile avatar white shadow border rounded-full">
+                            <img src="https://ui-avatars.com/api/?name=<?= $post['author']['username'] ?>" alt="Avatar">
+                        </div>
                         <h3 class="heading capitalize"><?= $post['author']['username']; ?></h3>
                         <p class="text-sm"><?= explode(' ', $post['created_at'])[0]; ?></p>
                     </div>
