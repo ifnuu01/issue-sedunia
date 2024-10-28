@@ -1,4 +1,5 @@
 <?php
+$_SESSION['last_activity'] = time();
 function registerUser($conn, $username, $email, $password)
 {
     $sql = "SELECT * FROM users WHERE email = '$email'";
@@ -247,4 +248,6 @@ function lastActivity()
     }
     $_SESSION['last_activity'] = time(); // Update waktu aktif terakhir
 }
+
+lastActivity();
 ?>
