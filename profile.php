@@ -92,14 +92,18 @@ $profileUser = getProfileUserId($conn, $_GET['id']);
                     <h3 class="heading text-lg"><?= $profileUser['user']['fullname'] ?></h3>
                     <div><?= $profileUser['user']['username'] ?></div>
                 </div>
-                <div class="avatar-lg white border shadow rounded-full"></div>
+                <div class="avatar-lg mt-3 white shadow border rounded-full">
+                    <img src="https://ui-avatars.com/api/?name=<?= $profileUser['user']['username'] ?>" alt="Avatar">
+                </div>
             </div>
             <div class="mb-2"><?= $profileUser['user']['bio'] ?></div>
             <div class="mb-6 text-sm">Joined <?= explode(' ', $profileUser['user']['created_at'])[0] ?></div>
-            <div class="flex w-full gap-3">
-                <a href="editProfile.php?id=<?= $profileUser['user']['id'] ?>" class="btn w-full px-6 py-2 font-bold flex text-center justify-center border shadow rounded-lg">Edit Profile</a>
-                <a href="logout.php" class="btn w-full px-6 py-2 font-bold flex text-center justify-center border shadow rounded-lg" onclick="return confirm('Are you sure you want to logout?')">Logout</a>
-            </div>
+            <?php if ($profileUser['user']['id'] == $user['id']): ?>
+                <div class="flex w-full gap-3">
+                    <a href="editProfile.php?id=<?= $profileUser['user']['id'] ?>" class="btn w-full px-6 py-2 font-bold flex text-center justify-center border shadow rounded-lg">Edit Profile</a>
+                    <a href="logout.php" class="btn w-full px-6 py-2 font-bold flex text-center justify-center border shadow rounded-lg" onclick="return confirm('Are you sure you want to logout?')">Logout</a>
+                </div>
+            <?php endif; ?>
         </section>
 
         <h2 class="heading text-center mb-6">Posts</h2>

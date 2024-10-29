@@ -57,12 +57,16 @@ $post = getSinglePost($conn, $_GET['id']);
 
     <?php if ($post['status']): ?>
         <article class="flex gap-6 mb-6">
-            <div class="post-avatar-desktop avatar mt-3 white shadow border rounded-full"></div>
+            <div class="post-avatar-desktop avatar mt-3 white shadow border rounded-full">
+                <img src="https://ui-avatars.com/api/?name=<?= $post['post']['author']['username'] ?>" alt="Avatar">
+            </div>
             <div class="w-full cream shadow border rounded-lg">
                 <div class="p-c flex items-center justify-between border-b flex-wrap gap-3">
                     <div class="flex items-center gap-3">
-                        <div class="post-avatar-mobile avatar white shadow border rounded-full"></div>
-                        <h3 class="heading capitalize"><?= $post['post']['author']['username']; ?></h3>
+                        <div class="post-avatar-mobile avatar white shadow border rounded-full">
+                            <img src="https://ui-avatars.com/api/?name=<?= $post['post']['author']['username'] ?>" alt="Avatar">
+                        </div>
+                        <a href="profile.php?id=<?= $post['post']['user_id'] ?>" class="heading capitalize"><?= $post['post']['author']['username']; ?></a>
                         <p class="text-sm"><?= explode(' ', $post['post']['created_at'])[0]; ?></p>
                     </div>
                     <div class="flex items-center gap-3 flex-wrap">
@@ -102,10 +106,17 @@ $post = getSinglePost($conn, $_GET['id']);
         </article>
         <article class="flex gap-6 mb-6">
             <?php if (!$post['post']['isSolve']): ?>
-                <div class="post-avatar-desktop avatar mt-3 white shadow border rounded-full"></div>
+                <div class="post-avatar-desktop avatar mt-3 white shadow border rounded-full">
+                    <img src="https://ui-avatars.com/api/?name=<?= $user['username'] ?>" alt="Avatar">
+                </div>
                 <div class="comment-line p-c w-full cream shadow border rounded-lg">
                     <form action="" method="POST">
-                        <label for="content" class="heading block mb-2">Add Comment</label>
+                        <div class="mb-6 flex items-center gap-3">
+                            <div class="post-avatar-mobile avatar white shadow border rounded-full">
+                                <img src="https://ui-avatars.com/api/?name=<?= $user['username'] ?>" alt="Avatar">
+                            </div>
+                            <label for="content" class="heading block">Add Comment</label>
+                        </div>
                         <textarea id="content" name="content" rows="2" cols="30" class="px-4 py-4 blue w-full rounded shadow border" required placeholder="Add comment..."></textarea>
                         <button type="submit" name="comment" class="border shadow rounded purple px-4 py-1">Submit</button>
                     </form>
@@ -114,12 +125,16 @@ $post = getSinglePost($conn, $_GET['id']);
         </article>
         <?php foreach ($post['comments'] as $comment): ?>
             <article class="flex gap-6 mb-6">
-                <div class="post-avatar-desktop avatar mt-3 white shadow border rounded-full"></div>
+                <div class="post-avatar-desktop avatar white shadow border rounded-full">
+                    <img src="https://ui-avatars.com/api/?name=<?= $comment['commenter']['username'] ?>" alt="Avatar">
+                </div>
                 <div class="comment-line w-full cream shadow border rounded-lg">
                     <div class="p-c flex items-center justify-between border-b flex-wrap gap-3">
                         <div class="flex items-center gap-3">
-                            <div class="post-avatar-mobile avatar white shadow border rounded-full"></div>
-                            <h3 class="heading capitalize"><?= $comment['commenter']['username']; ?></h3>
+                            <div class="post-avatar-mobile avatar white shadow border rounded-full">
+                                <img src="https://ui-avatars.com/api/?name=<?= $comment['commenter']['username'] ?>" alt="Avatar">
+                            </div>
+                            <a href="profile.php?id=<?= $comment['commenter']['id']; ?>" class="heading capitalize"><?= $comment['commenter']['username']; ?></a>
                             <p class="text-sm"><?= explode(' ', $comment['created_at'])[0]; ?></p>
                         </div>
                     </div>
