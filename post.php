@@ -100,7 +100,8 @@ $post = getSinglePost($conn, $_GET['id']);
                             <button type="button" class="relative btn-floating w-10 h-10 flex items-center justify-center light-green border shadow rounded">
                                 <img src="assets/icons/menu.svg" alt="menu">
                                 <div class="floating-action cream border shadow rounded">
-                                    <a href="deletePost.php?id=<?= $post['post']['id'] ?>" class="block px-6 py-2 font-medium" onclick="return confirm('Are you sure want to delete this post?')">Delete</a>
+                                    <a href="editPost.php?id=<?= $post['post']['id'] ?>" class="block px-6 py-2 font-medium border-b"">Edit</a>
+                                    <a href=" deletePost.php?id=<?= $post['post']['id'] ?>" class="block px-6 py-2 font-medium" onclick="return confirm('Are you sure want to delete this post?')">Delete</a>
                                 </div>
                             </button>
                         <?php endif; ?>

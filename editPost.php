@@ -24,11 +24,10 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
     $deletePostPhoto = (bool) $_POST['deletePostPhoto'];
     $result = editPost($conn, $postId, $title, $content, $categoryId, $imgFile, $deletePostPhoto);
 
-    echo "<script>alert('" . $result['message'] . "');</script>";
-
-    if ($result['status']) {
-        echo "<script>alert('Post has been edited!');</script>";
-        header('Location: index.php');
+    if (!$result['status']) {
+        echo "<script>alert('" . addslashes($result['message']) . "'); setTimeout(function() { window.location.href = 'editPost.php?id=$postId'; }, 0);</script>";
+    } else {
+        echo "<script>alert('" . addslashes($result['message']) . "'); setTimeout(function() { window.location.href = 'post.php?id=$postId'; }, 0);</script>";
     }
 }
 ?>
@@ -89,7 +88,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
                 </div>
                 <div class="mb-6">
                     <label for="title" class="heading block mb-2">Title Post</label>
-                    <input type="text" name="title" id="title" placeholder="Raana! What's new? (Max 50 characters!)" class="w-full blue p-c rounded-lg border shadow" required maxlength="50" value="<?= $singlePost['post']['title'] ?>">
+                    <input type="text" name="title" id="title" placeholder="Raana! What's new? (Max 50 characters!)" class="w-full blue p-c rounded-lg border shadow" maxlength="50" value="<?= $singlePost['post']['title'] ?>">
                 </div>
                 <div class="mb-6">
                     <label for="content" class="heading block mb-2">Description Post</label>
@@ -104,9 +103,9 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
                                 <img src="<?= $singlePost['post']['photo'] ?>" alt="Post Image">
                             </div>
                         </div>
-                        <input type="hidden" class="indicator-delete-photo" name="deletePostPhoto" value="0">
                         <button type="button" class="btn-delete-post-photo px-4 py-2 red rounded shadow border font-medium" onclick="return deletePhoto()">Delete Photo Post</button>
                     <?php endif ?>
+                    <input type="hidden" class="indicator-delete-photo" name="deletePostPhoto" value="0">
                 </div>
                 <button type="submit" class="btn auth w-full px-6 font-bold py-2 flex text-center justify-center border shadow rounded-lg">Edit Post</button>
             </form>
