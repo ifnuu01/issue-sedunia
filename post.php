@@ -73,9 +73,12 @@ $post = getSinglePost($conn, $_GET['id']);
                         <div class="capitalize px-6 py-1 font-medium border rounded shadow <?= $post['post']['category']; ?>"><?= $post['post']['category'] ?></div>
                         <div class="px-6 py-1 font-medium border rounded shadow <?= $post['post']['isSolve'] ? 'green' : 'red' ?>"><?= $post['post']['isSolve'] ? 'Solved' : 'Not Solve'; ?></div>
                         <?php if ($user['id'] == $post['post']['user_id']): ?>
-                            <div class="w-10 h-10 flex items-center justify-center light-green border shadow rounded">
+                            <button type="button" class="relative btn-floating w-10 h-10 flex items-center justify-center light-green border shadow rounded">
                                 <img src="assets/icons/menu.svg" alt="menu">
-                            </div>
+                                <div class="floating-action cream border shadow rounded">
+                                    <a href="deletePost.php?id=<?= $post['post']['id'] ?>" class="block px-6 py-2 font-medium" onclick="return confirm('Are you sure want to delete this post?')">Delete</a>
+                                </div>
+                            </button>
                         <?php endif; ?>
                     </div>
                 </div>
@@ -137,6 +140,14 @@ $post = getSinglePost($conn, $_GET['id']);
                             <a href="profile.php?id=<?= $comment['commenter']['id']; ?>" class="heading capitalize"><?= $comment['commenter']['username']; ?></a>
                             <p class="text-sm"><?= explode(' ', $comment['created_at'])[0]; ?></p>
                         </div>
+                        <?php if ($user['id'] == $comment['commenter']['id']): ?>
+                            <button type="button" class="relative btn-floating w-10 h-10 flex items-center justify-center light-green border shadow rounded">
+                                <img src="assets/icons/menu.svg" alt="menu">
+                                <div class="floating-action cream border shadow rounded">
+                                    <a href="deleteComment.php?id=<?= $post['post']['id'] ?>&commentId=<?= $comment['id'] ?>" class="block px-6 py-2 font-medium" onclick="return confirm('Are you sure want to delete this post?')">Delete</a>
+                                </div>
+                            </button>
+                        <?php endif; ?>
                     </div>
                     <div class="px-6 py-4 text-justify"><?= $comment['content']; ?></div>
                 </div>

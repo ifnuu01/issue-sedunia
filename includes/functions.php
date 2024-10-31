@@ -207,7 +207,7 @@ function getSinglePost($conn, $postId)
 {
     $sql = "
         SELECT 
-            p.id,
+            p.id AS post_id,
             p.title,
             p.content,
             p.created_at,
@@ -246,7 +246,7 @@ function getSinglePost($conn, $postId)
 
     $sqlComments = "
         SELECT 
-            c.id,
+            c.id AS comment_id,
             c.content,
             c.created_at,
             u.id,
@@ -271,7 +271,7 @@ function getSinglePost($conn, $postId)
     $comments = [];
     while ($comment = $commentsResult->fetch_assoc()) {
         $comments[] = [
-            "id" => $comment['id'],
+            "id" => $comment['comment_id'],
             "content" => $comment['content'],
             "created_at" => $comment['created_at'],
             "commenter" => [
@@ -287,7 +287,7 @@ function getSinglePost($conn, $postId)
         "status" => true,
         "post" => [
             "user_id" => $post['id'],
-            "id" => $post['id'],
+            "id" => $post['post_id'],
             "title" => $post['title'],
             "content" => $post['content'],
             "created_at" => $post['created_at'],
@@ -990,6 +990,13 @@ function editPost($conn, $postId, $title, $content, $categoryId, $imgFile = null
 //         }
 //     }
 // }
+
+function getSingleComment($conn, $id)
+{
+    $sql = "SELECT * FROM comments WHERE id = '$id'";
+    $result = $conn->query($sql);
+    return $result->fetch_assoc();
+}
 
 function deleteComment($conn, $id)
 {
