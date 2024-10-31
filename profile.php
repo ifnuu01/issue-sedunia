@@ -1,6 +1,7 @@
 <?php
 include 'includes/connection.php';
 include 'includes/functions.php';
+include 'components/avatar.php';
 
 session_start();
 
@@ -92,16 +93,16 @@ $profileUser = getProfileUserId($conn, $_GET['id']);
                     <h3 class="heading text-lg"><?= $profileUser['user']['fullname'] ?></h3>
                     <div><?= $profileUser['user']['username'] ?></div>
                 </div>
-                <div class="avatar-lg mt-3 white shadow border rounded-full">
-                    <img src="https://ui-avatars.com/api/?name=<?= $profileUser['user']['username'] ?>" alt="Avatar">
-                </div>
+                <?php
+                echo renderAvatar($profileUser['user']['username'], $profileUser['user']['photo'], 'avatar-lg', 'Photo Profile');
+                ?>
             </div>
             <div class="mb-2"><?= $profileUser['user']['bio'] ?></div>
             <div class="mb-6 text-sm">Joined <?= explode(' ', $profileUser['user']['created_at'])[0] ?></div>
             <?php if ($profileUser['user']['id'] == $user['id']): ?>
                 <div class="flex w-full gap-3">
-                    <a href="editProfile.php?id=<?= $profileUser['user']['id'] ?>" class="btn w-full px-6 py-2 font-bold flex text-center justify-center border shadow rounded-lg">Edit Profile</a>
-                    <a href="logout.php" class="btn w-full px-6 py-2 font-bold flex text-center justify-center border shadow rounded-lg" onclick="return confirm('Are you sure you want to logout?')">Logout</a>
+                    <a href="editProfile.php" class="btn w-full px-6 py-2 pink font-bold flex text-center justify-center border shadow rounded-lg">Edit Profile</a>
+                    <a href="logout.php" class="btn w-full px-6 py-2 red font-bold flex text-center justify-center border shadow rounded-lg" onclick="return confirm('Are you sure you want to logout?')">Logout</a>
                 </div>
             <?php endif; ?>
         </section>
@@ -110,9 +111,9 @@ $profileUser = getProfileUserId($conn, $_GET['id']);
         <?php if ($profileUser['posts']): ?>
             <?php foreach ($profileUser['posts'] as $post): ?>
                 <article class="flex gap-6 mb-6">
-                    <div class="post-avatar-desktop avatar mt-3 white shadow border rounded-full">
-                        <img src="https://ui-avatars.com/api/?name=<?= $profileUser['user']['username'] ?>" alt="Avatar">
-                    </div>
+                    <?php
+                    echo renderAvatar($profileUser['user']['username'], $profileUser['user']['photo'], 'avatar', 'Photo Profile', 'post-avatar-desktop mt-3');
+                    ?>
                     <div class="w-full cream shadow border rounded-lg">
                         <div class="p-c flex items-center justify-between border-b flex-wrap gap-3">
                             <div class="flex items-center gap-3">
@@ -160,7 +161,7 @@ $profileUser = getProfileUserId($conn, $_GET['id']);
             <?php endforeach; ?>
         <?php endif ?>
     <?php else: ?>
-        <div>Tidak ada</div>
+        <div class="text-center font-bold"><?= $profileUser['message'] ?></div>
     <?php endif; ?>
 
     <script src="js/music.js"></script>

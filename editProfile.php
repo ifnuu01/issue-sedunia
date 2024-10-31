@@ -1,5 +1,37 @@
 <?php
+include 'includes/connection.php';
+include 'includes/functions.php';
+
 session_start();
+
+$user = $_SESSION['user'];
+if (!isset($user)) {
+    header('Location: login.php');
+}
+
+$userProfile = getProfileUserId($conn, $user['id']);
+
+if (!$userProfile['status']) {
+    echo "<script>alert('" . addslashes($userProfile['message']) . "'); setTimeout(function() { window.location.href = 'index.php'; }, 0);</script>";
+}
+
+if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+    $username = htmlspecialchars($_POST['username']);
+    $fullname = htmlspecialchars($_POST['fullname']);
+    $bio = htmlspecialchars($_POST['bio']);
+    $newPassword = htmlspecialchars($_POST['newPassword']);
+    $password = htmlspecialchars($_POST['password']);
+    $photoProfile = isset($_FILES['photoProfile']) ? $_FILES['photoProfile'] : null;
+    $deletePhotoProfile = (bool) $_POST['deletePhotoProfile'];
+
+    $result = editProfile($conn, $user['id'], $username, $fullname, $bio, $newPassword, $password, $photoProfile, $deletePhotoProfile);
+    if (!$result['status']) {
+        echo "<script>alert('" . addslashes($result['message']) . "'); setTimeout(function() { window.location.href = 'editProfile.php'; }, 0);</script>";
+    } else {
+        echo "<script>alert('" . addslashes($result['message']) . "'); setTimeout(function() { window.location.href = 'profile.php?id=" . $user['id'] . "'; }, 0);</script>";
+    }
+}
+
 ?>
 
 <!DOCTYPE html>
@@ -37,40 +69,44 @@ session_start();
     <section class="mb-6 p-c cream border rounded-lg shadow">
         <div class="flex items-center justify-between mb-2">
             <div>
-                <h3 class="heading text-lg">Raana Fuyu</h3>
-                <div>Raana</div>
+                <h3 class="profile-fullname heading text-lg"><?= $userProfile['user']['fullname'] ?></h3>
+                <div class="profile-username"><?= $userProfile['user']['username'] ?></div>
             </div>
-            <div class="avatar-lg white border shadow rounded-full"></div>
+            <?php
+            include 'components/avatar.php';
+            echo renderAvatar($userProfile['user']['username'], $userProfile['user']['photo'], 'avatar-lg', 'Photo Profile');
+            ?>
         </div>
-        <div class="mb-2">Lorem, ipsum dolor sit amet consectetur adipisicing elit. Voluptatem sit numquam optio nemo perferendis odit quisquam accusantium distinctio, earum corporis. Hic, quibusdam saepe! Soluta atque magnam vero nostrum maxime nisi?</div>
-        <div class="mb-6 text-sm">Joined at 2024-10-17</div>
+        <div class="profile-bio mb-2"><?= $userProfile['user']['bio'] ?></div>
+        <div class="mb-6 text-sm">Joined at <?= $userProfile['user']['created_at'] ?></div>
     </section>
 
     <form action="" method="POST" class="mb-6 p-c w-full cream border shadow rounded-lg" enctype="multipart/form-data">
         <div class="mb-6">
             <label for="username" class="heading block mb-2">Username</label>
-            <input type="text" name="username" id="username" placeholder="Ex: fuyu" class="w-full red p-c rounded-lg border shadow">
+            <input type="text" name="username" id="username" placeholder="Ex: fuyu" class="w-full red p-c rounded-lg border shadow" value="<?= $userProfile['user']['username'] ?>">
         </div>
         <div class="mb-6">
             <label for="fullname" class="heading block mb-2">Fullname</label>
-            <input type="text" name="fullname" id="fullname" placeholder="Ex: Raana Fuyu" class="w-full yellow p-c rounded-lg border shadow">
+            <input type="text" name="fullname" id="fullname" placeholder="Ex: Raana Fuyu" class="w-full yellow p-c rounded-lg border shadow" value="<?= $userProfile['user']['fullname'] ?>">
         </div>
         <div class="mb-6">
             <label for="bio" class="heading block mb-2">Bio</label>
-            <textarea name="bio" id="bio" class="w-full light-green p-c rounded-lg border shadow" placeholder="Your Bio"></textarea>
+            <textarea name="bio" id="bio" class="w-full light-green p-c rounded-lg border shadow" placeholder="Your Bio"><?= $userProfile['user']['bio'] ?></textarea>
         </div>
         <div class="mb-6">
             <label for="newPassword" class="heading block mb-2">New Password</label>
-            <input type="password" name="newPassword" id="newPassword" placeholder="New password min 4 characters" class="w-full pink p-c rounded-lg border shadow">
+            <input type="password" name="newPassword" id="newPassword" placeholder="New password min 8 characters" class="w-full pink p-c rounded-lg border shadow">
         </div>
         <div class="mb-6">
             <label for="password" class="heading block mb-2">Current Password</label>
-            <input type="password" name="password" id="password" placeholder="Current password min 4 characters" class="w-full blue p-c rounded-lg border shadow">
+            <input type="password" name="password" id="password" placeholder="Current password min 8 characters" class="w-full blue p-c rounded-lg border shadow">
         </div>
         <div class="mb-10">
             <label for="photoProfile" class="heading block mb-2">Photo Profile</label>
-            <input type="file" name="photoProfile" id="photoProfile" class="mb-6 w-full purple p-c rounded-lg border shadow">
-            <button type="button" class="btn px-4 py-2 red rounded shadow border font-medium">Delete Photo Profile</button>
+            <input type="file" name="photoProfile" id="photoProfile" class="mb-6 w-full purple p-c rounded-lg border shadow" onclick="addPhoto()">
+            <input type="hidden" class="indicator-delete-photo" name="deletePhotoProfile" value="0">
+            <button type="button" class="btn-delete-photo btn px-4 py-2 red rounded shadow border font-medium <?= $userProfile['user']['photo'] ? "" : "hidden" ?>" onclick="return deletePhoto()">Delete Photo Profile</button>
         </div>
         <div class="flex items-center justify-between">
             <button type="button" class="btn px-4 py-2 red rounded shadow border font-medium">Delete Account</button>
@@ -82,7 +118,7 @@ session_start();
     </form>
 
     <script src="js/music.js"></script>
-    <script src="js/script.js"></script>
+    <script src="js/editProfile.js"></script>
 </body>
 
 </html>

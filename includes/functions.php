@@ -429,7 +429,7 @@ function getProfileUserId($conn, $userId)
     if ($resultUser->num_rows == 0) {
         return [
             "status" => false,
-            "message" => "Pengguna tidak ditemukan."
+            "message" => "User not found."
         ];
     }
 
@@ -834,6 +834,83 @@ function checkPassword($conn, $id, $password)
     } else {
         return false;
     }
+}
+
+function editProfile($conn, $userId, $username, $fullname, $bio, $newPassword, $password, $photoProfile = null, $removePhoto = false)
+{
+    $allUser = "SELECT username, fullname FROM users";
+    $userProfile = "SELECT username, fullname, bio, photo, password FROM users WHERE id = '$userId'";
+    $resultProfil = $conn->query($userProfile);
+    $row = $resultProfil->fetch_assoc();
+    $resultAll = $conn->query($allUser);
+
+    while ($rowAll = $resultAll->fetch_assoc()) {
+        if ($username == $rowAll['username'] && $username != $row['username']) {
+            return [
+                "status" => false,
+                "message" => "Username already exists!"
+            ];
+        }
+        if ($fullname == $rowAll['fullname'] && $fullname != $row['fullname']) {
+            return [
+                "status" => false,
+                "message" => "Fullname already exists!"
+            ];
+        }
+    }
+
+    if (!password_verify($password, $row['password'])) {
+        return [
+            "status" => false,
+            "message" => "Wrong Current Password!"
+        ];
+    }
+
+    $existingPhoto = $row['photo'];
+    $imagePath = $existingPhoto;
+
+    if ($removePhoto) {
+        if ($existingPhoto && file_exists($existingPhoto)) {
+            unlink($existingPhoto);
+        }
+        $imagePath = null;
+    } elseif ($photoProfile && $photoProfile['error'] == UPLOAD_ERR_OK) {
+        $photoCheck = checkValidPhoto($photoProfile);
+        if (!$photoCheck['status']) {
+            return $photoCheck;
+        }
+
+        if ($existingPhoto && file_exists($existingPhoto)) {
+            unlink($existingPhoto);
+        }
+
+        $fileExtension = strtolower(pathinfo($photoProfile['name'], PATHINFO_EXTENSION));
+        $uniqueName = uniqid("profile_", true) . "." . $fileExtension;
+        $uploadDir = "img/profiles/";
+
+        if (!is_dir($uploadDir)) {
+            mkdir($uploadDir, 0777, true);
+        }
+
+        $imagePath = $uploadDir . $uniqueName;
+        if (!move_uploaded_file($photoProfile['tmp_name'], $imagePath)) {
+            return [
+                "status" => false,
+                "message" => "Failed to upload new image."
+            ];
+        }
+    }
+
+    $newPassword = $newPassword ? password_hash($newPassword, PASSWORD_DEFAULT) : $row['password'];
+
+    $sql = "UPDATE users SET username = '$username', fullname = '$fullname', bio = '$bio', password = '$newPassword', photo = '$imagePath' WHERE id = '$userId'";
+    $conn->query($sql);
+
+    return
+        [
+            "status" => true,
+            "message" => "Profile updated successfully."
+        ];
 }
 
 function updateProfile($conn, $id, $username, $fullname, $bio, $newPassword, $oldPassword, $photo)
