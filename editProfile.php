@@ -109,7 +109,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             <button type="button" class="btn-delete-photo btn px-4 py-2 red rounded shadow border font-medium <?= $userProfile['user']['photo'] ? "" : "hidden" ?>" onclick="return deletePhoto()">Delete Photo Profile</button>
         </div>
         <div class="flex items-center justify-between">
-            <button type="button" class="btn px-4 py-2 red rounded shadow border font-medium">Delete Account</button>
+            <a href="deleteAccount.php" type="button" class="btn px-4 py-2 red rounded shadow border font-medium" onclick="return confirm('Are you sure want to delete this account?')">Delete Account</a>
             <div class="flex items-center gap-3">
                 <a href="/issue-sedunia" class="btn px-4 py-2 purple rounded shadow border font-medium">Cancel</a>
                 <button type="submit" class="btn px-4 py-2 green rounded shadow border font-medium">Update Profile</button>

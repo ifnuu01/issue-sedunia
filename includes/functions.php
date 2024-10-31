@@ -946,7 +946,7 @@ function updateProfile($conn, $id, $username, $fullname, $bio, $newPassword, $ol
     }
 }
 
-function editPost($conn, $postId, $title, $content, $categoryId, $imgFile = null, $removePhoto = false)
+function editPost($conn, $postId, $title, $content, $categoryId, $isSolve = 0, $imgFile = null, $removePhoto = false)
 {
     if (empty($title) || empty($categoryId)) {
         return [
@@ -1000,9 +1000,9 @@ function editPost($conn, $postId, $title, $content, $categoryId, $imgFile = null
         }
     }
 
-    $sql = "UPDATE posts SET title = ?, content = ?, category_id = ?, photo = ? WHERE id = ?";
+    $sql = "UPDATE posts SET title = ?, content = ?, category_id = ?, photo = ?, isSolve = ? WHERE id = ?";
     $stmt = $conn->prepare($sql);
-    $stmt->bind_param("ssisi", $title, $content, $categoryId, $imagePath, $postId);
+    $stmt->bind_param("ssisii", $title, $content, $categoryId, $imagePath, $isSolve, $postId);
 
     if ($stmt->execute()) {
         return [
@@ -1098,6 +1098,13 @@ function editComment($conn, $id, $comment)
         "message" => "Comment updated successfully."
     ];
 }
+
+function deleteAccount($conn, $id)
+{
+    $sql = "DELETE FROM users WHERE id = '$id'";
+    return $conn->query($sql);
+}
+
 function logOut()
 {
     session_start();

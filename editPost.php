@@ -17,12 +17,13 @@ if ($user['id'] != $singlePost['post']['user_id']) {
 }
 
 if ($_SERVER['REQUEST_METHOD'] == "POST") {
-    $categoryId = $_POST['category'];
+    $categoryId = (int) $_POST['category'];
     $title = htmlspecialchars($_POST['title']);
     $content = htmlspecialchars($_POST['content']);
     $imgFile = isset($_FILES['img']) ? $_FILES['img'] : null;
+    $isSolve = (int) $_POST['isSolve'];
     $deletePostPhoto = (bool) $_POST['deletePostPhoto'];
-    $result = editPost($conn, $postId, $title, $content, $categoryId, $imgFile, $deletePostPhoto);
+    $result = editPost($conn, $postId, $title, $content, $categoryId, $isSolve, $imgFile, $deletePostPhoto);
 
     if (!$result['status']) {
         echo "<script>alert('" . addslashes($result['message']) . "'); setTimeout(function() { window.location.href = 'editPost.php?id=$postId'; }, 0);</script>";
@@ -78,6 +79,13 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
                 <img src="https://ui-avatars.com/api/?name=<?= $user['username'] ?>" alt="Avatar">
             </div>
             <form action="" class="w-full" enctype="multipart/form-data" method="POST">
+                <div class="mb-6">
+                    <label for="isSolve" class="heading block mb-2">Is Solve</label>
+                    <select name="isSolve" id="isSolve" class="px-6 py-2 pink rounded shadow border w-full">
+                        <option value="0" selected>Not Solve</option>
+                        <option value="1">Solve</option>
+                    </select>
+                </div>
                 <div class="mb-6">
                     <label for="category" class="heading block mb-2">Category</label>
                     <select name="category" id="category" class="px-6 py-2 purple rounded shadow border w-full">
