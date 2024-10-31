@@ -55,6 +55,30 @@ $post = getSinglePost($conn, $_GET['id']);
         <h2 class="font-bold mb-6">Soundboard</h2>
     </div>
 
+    <dialog class="dialog-edit-comment cream shadow border rounded-lg">
+        <div class="p-c border-b grid grid-cols-3">
+            <div class="flex gap-3 items-center">
+                <div class="w-5 h-5 rounded-full shadow border red"></div>
+                <div class="w-5 h-5 rounded-full shadow border yellow"></div>
+                <div class="w-5 h-5 rounded-full shadow border green"></div>
+            </div>
+            <h2 class="text-center font-bold">Edit Comment</h2>
+            <button type="button" class="cancel-edit-comment text-end font-medium">Cancel</button>
+        </div>
+        <div class="p-c flex gap-6">
+            <div class="avatar white shadow border rounded-full">
+                <img src="https://ui-avatars.com/api/?name=<?= $user['username'] ?>" alt="Avatar">
+            </div>
+            <form action="" class="w-full" enctype="multipart/form-data" method="POST">
+                <div class="mb-6">
+                    <label for="content" class="heading block mb-2">Description Post</label>
+                    <input type="text" name="content" id="content" placeholder="What's your describe about this post" class="w-full yellow p-c rounded-lg border shadow">
+                </div>
+                <button type="submit" class="btn auth w-full px-6 font-bold py-2 flex text-center justify-center border shadow rounded-lg">Post</button>
+            </form>
+        </div>
+    </dialog>
+
     <?php if ($post['status']): ?>
         <article class="flex gap-6 mb-6">
             <div class="post-avatar-desktop avatar mt-3 white shadow border rounded-full">
@@ -144,7 +168,8 @@ $post = getSinglePost($conn, $_GET['id']);
                             <button type="button" class="relative btn-floating w-10 h-10 flex items-center justify-center light-green border shadow rounded">
                                 <img src="assets/icons/menu.svg" alt="menu">
                                 <div class="floating-action cream border shadow rounded">
-                                    <a href="deleteComment.php?id=<?= $post['post']['id'] ?>&commentId=<?= $comment['id'] ?>" class="block px-6 py-2 font-medium" onclick="return confirm('Are you sure want to delete this post?')">Delete</a>
+                                    <a href="editComment.php?id=<?= $post['post']['id'] ?>&commentId=<?= $comment['id'] ?>" class="block px-6 py-2 font-medium border-b"">Edit</a>
+                                    <a href=" deleteComment.php?id=<?= $post['post']['id'] ?>&commentId=<?= $comment['id'] ?>" class="block px-6 py-2 font-medium" onclick="return confirm('Are you sure want to delete this post?')">Delete</a>
                                 </div>
                             </button>
                         <?php endif; ?>
@@ -158,7 +183,7 @@ $post = getSinglePost($conn, $_GET['id']);
     <?php endif; ?>
 
     <script src="js/music.js"></script>
-    <script src="js/script.js"></script>
+    <!-- <script src="js/script.js"></script> -->
 </body>
 
 </html>

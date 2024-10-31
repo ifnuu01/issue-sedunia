@@ -35,6 +35,8 @@ function navbar()
         </a>
     </div>
 </nav>
-        ';
+
+<script src="js/navbar.js"></script>
+';
 }
 ?>

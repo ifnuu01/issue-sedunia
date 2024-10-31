@@ -1006,8 +1006,19 @@ function deleteComment($conn, $id)
 
 function editComment($conn, $id, $comment)
 {
+    if (empty($comment)) {
+        return [
+            "status" => false,
+            "message" => "Comment cannot be empty."
+        ];
+    }
+
     $sql = "UPDATE comments SET content = '$comment' WHERE id = '$id'";
-    return $conn->query($sql);
+    $conn->query($sql);
+    return [
+        "status" => true,
+        "message" => "Comment updated successfully."
+    ];
 }
 function logOut()
 {
