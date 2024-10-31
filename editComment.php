@@ -1,6 +1,7 @@
 <?php
 require 'includes/connection.php';
 require 'includes/functions.php';
+require 'components/avatar.php';
 
 session_start();
 
@@ -63,12 +64,12 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
                 <div class="w-5 h-5 rounded-full shadow border green"></div>
             </div>
             <h2 class="text-center font-bold">Edit Comment</h2>
-            <a href="index.php" class="text-end font-medium">Cancel</a>
+            <a href="post.php?id=<?= $postId ?>" class="text-end font-medium">Cancel</a>
         </div>
         <div class="p-c flex gap-6">
-            <div class="avatar white shadow border rounded-full">
-                <img src="https://ui-avatars.com/api/?name=<?= $user['username'] ?>" alt="Avatar">
-            </div>
+            <?php
+            echo renderAvatar($user['username'], $user['photo']);
+            ?>
             <form action="" class="w-full" enctype="multipart/form-data" method="POST">
                 <div class="mb-6">
                     <label for="content" class="heading block mb-2">Comment</label>

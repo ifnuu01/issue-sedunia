@@ -1,6 +1,7 @@
 <?php
 include 'includes/connection.php';
 include 'includes/functions.php';
+include 'components/avatar.php';
 
 session_start();
 
@@ -57,9 +58,9 @@ $allPosts = getAllPosts($conn);
     </div>
 
     <article class="btn-upload-modal flex gap-6 items-center mb-6 cursor-pointer">
-        <div class="avatar white shadow border rounded-full">
-            <img src="https://ui-avatars.com/api/?name=<?= $user['username'] ?>" alt="Avatar">
-        </div>
+        <?php
+        echo renderAvatar($user['username'], $user['photo']);
+        ?>
         <div class="w-full p-c cream shadow border rounded-full">Hi <?= $user['username'] ?>! What's new?</div>
     </article>
 
@@ -74,9 +75,9 @@ $allPosts = getAllPosts($conn);
             <button type="button" class="cancel-post text-end font-medium">Cancel</button>
         </div>
         <div class="p-c flex gap-6">
-            <div class="avatar white shadow border rounded-full">
-                <img src="https://ui-avatars.com/api/?name=<?= $user['username'] ?>" alt="Avatar">
-            </div>
+            <?php
+            echo renderAvatar($user['username'], $user['photo']);
+            ?>
             <form action="" class="w-full" enctype="multipart/form-data" method="POST">
                 <div class="mb-6">
                     <label for="category" class="heading block mb-2">Category</label>
@@ -106,15 +107,15 @@ $allPosts = getAllPosts($conn);
 
     <?php foreach ($allPosts as $post): ?>
         <article class="flex gap-6 mb-6">
-            <div class="post-avatar-desktop avatar mt-3 white shadow border rounded-full">
-                <img src="https://ui-avatars.com/api/?name=<?= $post['author']['username'] ?>" alt="Avatar">
-            </div>
+            <?php
+            echo renderAvatar($post['author']['username'], $post['author']['photo'], 'avatar', 'Photo Profile', 'post-avatar-desktop mt-3');
+            ?>
             <div class="w-full cream shadow border rounded-lg">
                 <div class="p-c flex items-center justify-between border-b flex-wrap gap-3">
                     <div class="flex items-center gap-3">
-                        <div class="post-avatar-mobile avatar white shadow border rounded-full">
-                            <img src="https://ui-avatars.com/api/?name=<?= $post['author']['username'] ?>" alt="Avatar">
-                        </div>
+                        <?php
+                        echo renderAvatar($post['author']['username'], $post['author']['photo'], 'avatar', 'Photo Profile', 'post-avatar-mobile');
+                        ?>
                         <a href="profile.php?id=<?= $post['user_id'] ?>" class="heading capitalize"><?= $post['author']['username']; ?></a>
                         <p class="text-sm"><?= explode(' ', $post['created_at'])[0]; ?></p>
                     </div>

@@ -65,7 +65,7 @@ function registrasi($conn, $username, $fullname, $email, $password)
 // ifnu buat
 function login($conn, $usernameOrEmail, $password)
 {
-    $sql = "SELECT id, username, fullname, email, password, role FROM users WHERE username=? OR email=?";
+    $sql = "SELECT id, username, fullname, email, password, photo, role FROM users WHERE username=? OR email=?";
     $stmt = $conn->prepare($sql);
     $stmt->bind_param("ss", $usernameOrEmail, $usernameOrEmail);
     $stmt->execute();
@@ -95,6 +95,7 @@ function login($conn, $usernameOrEmail, $password)
             "username" => $user['username'],
             "fullname" => $user['fullname'],
             "email" => $user['email'],
+            "photo" => $user['photo'],
             "role" => $user['role'],
         ]
     ];

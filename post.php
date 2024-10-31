@@ -1,6 +1,7 @@
 <?php
 include 'includes/connection.php';
 include 'includes/functions.php';
+include 'components/avatar.php';
 
 session_start();
 
@@ -66,9 +67,9 @@ $post = getSinglePost($conn, $_GET['id']);
             <button type="button" class="cancel-edit-comment text-end font-medium">Cancel</button>
         </div>
         <div class="p-c flex gap-6">
-            <div class="avatar white shadow border rounded-full">
-                <img src="https://ui-avatars.com/api/?name=<?= $user['username'] ?>" alt="Avatar">
-            </div>
+            <?php
+            echo renderAvatar($user['username'], $user['photo']);
+            ?>
             <form action="" class="w-full" enctype="multipart/form-data" method="POST">
                 <div class="mb-6">
                     <label for="content" class="heading block mb-2">Description Post</label>
@@ -81,15 +82,15 @@ $post = getSinglePost($conn, $_GET['id']);
 
     <?php if ($post['status']): ?>
         <article class="flex gap-6 mb-6">
-            <div class="post-avatar-desktop avatar mt-3 white shadow border rounded-full">
-                <img src="https://ui-avatars.com/api/?name=<?= $post['post']['author']['username'] ?>" alt="Avatar">
-            </div>
+            <?php
+            echo renderAvatar($post['post']['author']['username'], $post['post']['author']['photo'], 'avatar', 'Photo Profile', 'post-avatar-desktop mt-3');
+            ?>
             <div class="w-full cream shadow border rounded-lg">
                 <div class="p-c flex items-center justify-between border-b flex-wrap gap-3">
                     <div class="flex items-center gap-3">
-                        <div class="post-avatar-mobile avatar white shadow border rounded-full">
-                            <img src="https://ui-avatars.com/api/?name=<?= $post['post']['author']['username'] ?>" alt="Avatar">
-                        </div>
+                        <?php
+                        echo renderAvatar($post['post']['author']['username'], $post['post']['author']['photo'], 'avatar', 'Photo Profile', 'post-avatar-mobile');
+                        ?>
                         <a href="profile.php?id=<?= $post['post']['user_id'] ?>" class="heading capitalize"><?= $post['post']['author']['username']; ?></a>
                         <p class="text-sm"><?= explode(' ', $post['post']['created_at'])[0]; ?></p>
                     </div>
@@ -134,15 +135,16 @@ $post = getSinglePost($conn, $_GET['id']);
         </article>
         <article class="flex gap-6 mb-6">
             <?php if (!$post['post']['isSolve']): ?>
-                <div class="post-avatar-desktop avatar mt-3 white shadow border rounded-full">
-                    <img src="https://ui-avatars.com/api/?name=<?= $user['username'] ?>" alt="Avatar">
-                </div>
+
+                <?php
+                echo renderAvatar($post['post']['author']['username'], $post['post']['author']['photo'], 'avatar', 'Photo Profile', 'post-avatar-desktop mt-3');
+                ?>
                 <div class="comment-line p-c w-full cream shadow border rounded-lg">
                     <form action="" method="POST">
                         <div class="mb-6 flex items-center gap-3">
-                            <div class="post-avatar-mobile avatar white shadow border rounded-full">
-                                <img src="https://ui-avatars.com/api/?name=<?= $user['username'] ?>" alt="Avatar">
-                            </div>
+                            <?php
+                            echo renderAvatar($post['post']['author']['username'], $post['post']['author']['photo'], 'avatar', 'Photo Profile', 'post-avatar-mobile');
+                            ?>
                             <label for="content" class="heading block">Add Comment</label>
                         </div>
                         <textarea id="content" name="content" rows="2" cols="30" class="px-4 py-4 blue w-full rounded shadow border" required placeholder="Add comment..."></textarea>
@@ -153,15 +155,15 @@ $post = getSinglePost($conn, $_GET['id']);
         </article>
         <?php foreach ($post['comments'] as $comment): ?>
             <article class="flex gap-6 mb-6">
-                <div class="post-avatar-desktop avatar white shadow border rounded-full">
-                    <img src="https://ui-avatars.com/api/?name=<?= $comment['commenter']['username'] ?>" alt="Avatar">
-                </div>
+                <?php
+                echo renderAvatar($comment['commenter']['username'], $comment['commenter']['photo'], 'avatar', 'Photo Profile', 'post-avatar-desktop mt-3');
+                ?>
                 <div class="comment-line w-full cream shadow border rounded-lg">
                     <div class="p-c flex items-center justify-between border-b flex-wrap gap-3">
                         <div class="flex items-center gap-3">
-                            <div class="post-avatar-mobile avatar white shadow border rounded-full">
-                                <img src="https://ui-avatars.com/api/?name=<?= $comment['commenter']['username'] ?>" alt="Avatar">
-                            </div>
+                            <?php
+                            echo renderAvatar($comment['commenter']['username'], $comment['commenter']['photo'], 'avatar', 'Photo Profile', 'post-avatar-mobile');
+                            ?>
                             <a href="profile.php?id=<?= $comment['commenter']['id']; ?>" class="heading capitalize"><?= $comment['commenter']['username']; ?></a>
                             <p class="text-sm"><?= explode(' ', $comment['created_at'])[0]; ?></p>
                         </div>
