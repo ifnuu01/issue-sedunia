@@ -122,9 +122,13 @@ $allPosts = getAllPosts($conn);
                         <div class="capitalize px-6 py-1 font-medium border rounded shadow <?= $post['category']; ?>"><?= $post['category'] ?></div>
                         <div class="px-6 py-1 font-medium border rounded shadow <?= $post['isSolve'] ? 'green' : 'red' ?>"><?= $post['isSolve'] ? 'Solved' : 'Not Solve'; ?></div>
                         <?php if ($user['id'] == $post['user_id']): ?>
-                            <div class="w-10 h-10 flex items-center justify-center light-green border shadow rounded">
+                            <button type="button" class="relative btn-floating w-10 h-10 flex items-center justify-center light-green border shadow rounded">
                                 <img src="assets/icons/menu.svg" alt="menu">
-                            </div>
+                                <div class="floating-action cream border shadow rounded">
+                                    <a href="editPost.php?id=<?= $post['id'] ?>" class="block px-6 py-2 font-medium border-b">Edit</a>
+                                    <a href="deletePost.php?id=<?= $post['id'] ?>" class="block px-6 py-2 font-medium" onclick="return confirm('Are you sure want to delete this post?')">Delete</a>
+                                </div>
+                            </button>
                         <?php endif; ?>
                     </div>
                 </div>

@@ -93,6 +93,17 @@ body {
   justify-content: center;
 }
 
+.floating-action {
+  position: absolute;
+  top: 48px;
+  right: 0;
+  display: none;
+}
+
+.btn-floating:focus-within .floating-action {
+  display: grid;
+}
+
 @media (min-width: 768px) {
   body {
     padding-bottom: 24px;

@@ -373,3 +373,9 @@ button {
   cursor: pointer;
 }
 /* cursor end */
+
+/* position start */
+.relative {
+  position: relative;
+}
+/* position end */
