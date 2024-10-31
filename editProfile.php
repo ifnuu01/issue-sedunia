@@ -81,6 +81,7 @@ session_start();
         </div>
     </form>
 
+    <script src="js/music.js"></script>
     <script src="js/script.js"></script>
 </body>
 

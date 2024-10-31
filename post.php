@@ -157,6 +157,7 @@ $post = getSinglePost($conn, $_GET['id']);
         <div class="p-c rounded-lg shadow border capitalize text-center">No post!</div>
     <?php endif; ?>
 
+    <script src="js/music.js"></script>
     <script src="js/script.js"></script>
 </body>
 

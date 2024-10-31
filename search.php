@@ -144,6 +144,8 @@ $top5Post = top5WatchingCounter($conn);
             </a>
         <?php endforeach; ?>
     <?php endif; ?>
+
+    <script src="js/music.js"></script>
     <script src="js/script.js"></script>
 </body>
 

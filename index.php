@@ -160,6 +160,7 @@ $allPosts = getAllPosts($conn);
     <?php endforeach; ?>
 
     <script src="js/script.js"></script>
+    <script src="js/music.js"></script>
 </body>
 
 </html>

@@ -163,6 +163,7 @@ $profileUser = getProfileUserId($conn, $_GET['id']);
         <div>Tidak ada</div>
     <?php endif; ?>
 
+    <script src="js/music.js"></script>
     <script src="js/script.js"></script>
 </body>
 
