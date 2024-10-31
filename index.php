@@ -49,7 +49,9 @@ $allPosts = getAllPosts($conn);
 <body>
     <?php
     include 'components/navbar.php';
+    include 'components/dialog.php';
     echo navbar();
+    echo dialog();
     ?>
     <h2 class="heading text-center mb-6">Posts</h2>
 
@@ -106,7 +108,7 @@ $allPosts = getAllPosts($conn);
     </dialog>
 
     <?php foreach ($allPosts as $post): ?>
-        <article class="flex gap-6 mb-6">
+        <article class="article flex gap-6 mb-6">
             <?php
             echo renderAvatar($post['author']['username'], $post['author']['photo'], 'avatar', 'Photo Profile', 'post-avatar-desktop mt-3');
             ?>
@@ -127,7 +129,7 @@ $allPosts = getAllPosts($conn);
                                 <img src="assets/icons/menu.svg" alt="menu">
                                 <div class="floating-action cream border shadow rounded">
                                     <a href="editPost.php?id=<?= $post['id'] ?>" class="block px-6 py-2 font-medium border-b">Edit</a>
-                                    <a href="deletePost.php?id=<?= $post['id'] ?>" class="block px-6 py-2 font-medium" onclick="return confirm('Are you sure want to delete this post?')">Delete</a>
+                                    <a href="deletePost.php?id=<?= $post['id'] ?>" class="block px-6 py-2 font-medium" onclick="return confirmPrompt('Delete Post','Are you sure want to delete this post?', 'deletePost.php?id=<?= $post['id'] ?>')">Delete</a>
                                 </div>
                             </button>
                         <?php endif; ?>
@@ -162,6 +164,7 @@ $allPosts = getAllPosts($conn);
 
     <script src="js/script.js"></script>
     <script src="js/music.js"></script>
+    <script src="js/dialog.js"></script>
 </body>
 
 </html>

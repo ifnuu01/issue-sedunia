@@ -2,6 +2,7 @@
 include 'includes/connection.php';
 include 'includes/functions.php';
 include 'components/avatar.php';
+include 'components/dialog.php';
 
 session_start();
 
@@ -49,6 +50,7 @@ $post = getSinglePost($conn, $_GET['id']);
     <?php
     include 'components/navbar.php';
     echo navbar();
+    echo dialog();
     ?>
     <h2 class="heading text-center mb-6">Posts</h2>
 
@@ -102,7 +104,7 @@ $post = getSinglePost($conn, $_GET['id']);
                                 <img src="assets/icons/menu.svg" alt="menu">
                                 <div class="floating-action cream border shadow rounded">
                                     <a href="editPost.php?id=<?= $post['post']['id'] ?>" class="block px-6 py-2 font-medium border-b"">Edit</a>
-                                    <a href=" deletePost.php?id=<?= $post['post']['id'] ?>" class="block px-6 py-2 font-medium" onclick="return confirm('Are you sure want to delete this post?')">Delete</a>
+                                    <a href=" deletePost.php?id=<?= $post['post']['id'] ?>" class="block px-6 py-2 font-medium" onclick="return confirmPrompt('Delete Post','Are you sure want to delete this post?', 'deletePost.php?id=<?= $post['post']['id'] ?>')">Delete</a>
                                 </div>
                             </button>
                         <?php endif; ?>
@@ -137,13 +139,13 @@ $post = getSinglePost($conn, $_GET['id']);
             <?php if (!$post['post']['isSolve']): ?>
 
                 <?php
-                echo renderAvatar($post['post']['author']['username'], $post['post']['author']['photo'], 'avatar', 'Photo Profile', 'post-avatar-desktop mt-3');
+                echo renderAvatar($user['username'], $user['photo'], 'avatar', 'Photo Profile', 'post-avatar-desktop mt-3');
                 ?>
                 <div class="comment-line p-c w-full cream shadow border rounded-lg">
                     <form action="" method="POST">
                         <div class="mb-6 flex items-center gap-3">
                             <?php
-                            echo renderAvatar($post['post']['author']['username'], $post['post']['author']['photo'], 'avatar', 'Photo Profile', 'post-avatar-mobile');
+                            echo renderAvatar($user['username'], $user['photo'], 'avatar', 'Photo Profile', 'post-avatar-mobile');
                             ?>
                             <label for="content" class="heading block">Add Comment</label>
                         </div>
@@ -172,7 +174,7 @@ $post = getSinglePost($conn, $_GET['id']);
                                 <img src="assets/icons/menu.svg" alt="menu">
                                 <div class="floating-action cream border shadow rounded">
                                     <a href="editComment.php?id=<?= $post['post']['id'] ?>&commentId=<?= $comment['id'] ?>" class="block px-6 py-2 font-medium border-b"">Edit</a>
-                                    <a href=" deleteComment.php?id=<?= $post['post']['id'] ?>&commentId=<?= $comment['id'] ?>" class="block px-6 py-2 font-medium" onclick="return confirm('Are you sure want to delete this post?')">Delete</a>
+                                    <a href=" deleteComment.php?id=<?= $post['post']['id'] ?>&commentId=<?= $comment['id'] ?>" class="block px-6 py-2 font-medium" onclick="return confirmPrompt('Delete Comment','Are you sure want to delete this comment?','deleteComment.php?id=<?= $post['post']['id'] ?>&commentId=<?= $comment['id'] ?>')">Delete</a>
                                 </div>
                             </button>
                         <?php endif; ?>
@@ -186,7 +188,7 @@ $post = getSinglePost($conn, $_GET['id']);
     <?php endif; ?>
 
     <script src="js/music.js"></script>
-    <!-- <script src="js/script.js"></script> -->
+    <script src="js/dialog.js"></script>
 </body>
 
 </html>

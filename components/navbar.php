@@ -30,7 +30,7 @@ function navbar()
         <a href="editProfile.php" class="setting-icon setting w-12 h-12 flex items-center justify-center rounded-full">
             <img src="assets/icons/setting.svg" alt="setting">
         </a>
-        <a href="logout.php" class="setting-icon setting w-12 h-12 flex items-center justify-center rounded-full" onclick="return confirm(\'Are you sure you want to logout?\')">
+        <a href="logout.php" class="setting-icon setting w-12 h-12 flex items-center justify-center rounded-full" onclick="return confirmPrompt(\'Logout\',\'Are you sure you want to logout?\', \'logout.php\')">
             <img src="assets/icons/logout.svg" alt="logout">
         </a>
     </div>
