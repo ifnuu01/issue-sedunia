@@ -18,12 +18,12 @@ audioSources.forEach((audioData, index) => {
   musicContainer.insertAdjacentHTML(
     "beforeend",
     `
-        <div>
-            <button type="button" class="music-player" data-index="${index}">
-                <img src="assets/icons/play.svg" alt="Controller">
-                <label for="${audioData.label}">${audioData.label}</label>
+        <div class="flex flex-col mb-2">
+            <label for="${audioData.label}">${audioData.label}</label>
+            <button type="button" class="music-player flex items-center gap-2" data-index="${index}">
+              <img src="assets/icons/play.svg" alt="Controller">
+              <input type="range" name="${audioData.label}" id="${audioData.label}" min="0" max="100" value="0">
             </button>
-            <input type="range" name="${audioData.label}" id="${audioData.label}" min="0" max="100" value="0">
         </div>
     `
   );
@@ -33,7 +33,7 @@ const musicBtns = document.querySelectorAll(".music-player");
 
 musicBtns.forEach((button, index) => {
   const audio = new Audio(audioSources[index].src);
-  const volumeSlider = button.nextElementSibling;
+  const volumeSlider = button.querySelector("input[type='range']");
 
   button.addEventListener("click", () => {
     if (audio.paused) {
