@@ -1,16 +1,11 @@
 const uploadBtn = document.querySelector(".btn-upload-modal");
 const dialog = document.querySelector(".dialog");
 const cancelBtn = document.querySelector(".cancel-post");
-const navAddPost = document.querySelector(".nav-add-post");
 
 function shareLink(id) {
   const link = `localhost/issue-sedunia/post.php?id=${id}`;
   navigator.clipboard.writeText(link).then(() => alert("Link copied!"));
 }
-
-navAddPost.addEventListener("click", () => {
-  dialog.showModal();
-});
 
 dialog.addEventListener("click", (e) => {
   const dialogDimensions = dialog.getBoundingClientRect();

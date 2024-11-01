@@ -15,8 +15,8 @@ function navbar()
         <a href="search.php" class="search-icon w-12 h-12 flex items-center justify-center rounded-full">
             <img src="assets/icons/search.svg" alt="search">
         </a>
-        <button type="button" class="nav-add-post w-12 h-12 flex items-center justify-center rounded-full">
-            <img src="assets/icons/add.svg" alt="add">
+        <button type="button" class="btn-fullscreen w-12 h-12 flex items-center justify-center rounded-full" onclick="toggleFullScreen()">
+            <img src="assets/icons/fullscreen.svg" alt="fullscreen">
         </button>
         <button type="button" class="music-toggler w-12 h-12 flex items-center justify-center rounded-full">
             <img src="assets/icons/music.svg" alt="music">
