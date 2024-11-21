@@ -1,33 +1,30 @@
-const togglerMode = document.querySelector(".toggler-mode");
-const postImage = document.querySelector("#photo");
-const deletePhotoBtn = document.querySelector("#deletePhotoBtn");
-const inputPhoto = document.querySelector("#deletePhoto");
-console.log(deletePhotoBtn);
-console.log(inputPhoto);
+const uploadBtn = document.querySelector(".btn-upload-modal");
+const dialog = document.querySelector(".dialog");
+const cancelBtn = document.querySelector(".cancel-post");
 
-let isDark = false;
+function shareLink(id) {
+  const domain = window.location.origin;
+  const path = window.location.pathname;
+  const link = `${domain}${path}?id=${id}`;
+  navigator.clipboard.writeText(link).then(() => alert("Link copied!"));
+}
 
-togglerMode.addEventListener("click", () => {
-  isDark = !isDark;
-  const root = document.body;
-
-  isDark ? (togglerMode.innerText = "🌞") : (togglerMode.innerText = "🌚");
-
-  root.classList.toggle("dark-mode");
+dialog.addEventListener("click", (e) => {
+  const dialogDimensions = dialog.getBoundingClientRect();
+  if (
+    e.clientX < dialogDimensions.left ||
+    e.clientX > dialogDimensions.right ||
+    e.clientY < dialogDimensions.top ||
+    e.clientY > dialogDimensions.bottom
+  ) {
+    dialog.close();
+  }
 });
 
-deletePhotoBtn.addEventListener("click", function () {
-  console.log(deletePhotoBtn);
-  console.log(inputPhoto);
-  const confirmDelete = confirm("Are you sure you want to delete this photo?");
-  if (confirmDelete) {
-    deletePhotoInput.value = "1";
+cancelBtn.addEventListener("click", () => {
+  dialog.close();
+});
 
-    const postImage = document.querySelector(".post-image img");
-    if (postImage) {
-      postImage.style.display = "none";
-    }
-
-    deletePhotoBtn.disabled = true;
-  }
+uploadBtn.addEventListener("click", () => {
+  dialog.showModal();
 });

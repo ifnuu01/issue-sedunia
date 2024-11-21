@@ -4,7 +4,8 @@ require 'includes/connection.php';
 require 'includes/functions.php';
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-    $userId = 1; //sembarang aja bah. tapi nnt pake session['user]['id'] aja
+    $userId = 8; //sembarang aja bah. tapi nnt pake session['user]['id'] aja
+
     $categoryId = $_POST['category'];
     $title = $_POST['title'];
     $content = $_POST['content'];
@@ -45,4 +46,5 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         <button type="submit">Tambah Postingan</button>
     </form>
 </body>
+
 </html>
